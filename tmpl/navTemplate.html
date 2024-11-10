@@ -1,0 +1,41 @@
+<script id="navTemplate" type="text/x-jquery-tmpl">
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html"><img src="/assets/logo.png" style="max-height: 100%;"/></a>
+        </div>
+        <div class="collapse navbar-collapse" id="custom-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            {{each(i, menu) navData}}
+              <li class="dropdown">
+                {{if menu.subMenu}}
+                  <a class="dropdown-toggle" href="${menu.link}" data-toggle="dropdown">${menu.title}</a>
+                  <ul class="dropdown-menu">
+                    {{each(j, subMenu) menu.subMenu}}
+                      <li class="dropdown">
+                        <a class="dropdown-toggle" href="${subMenu.link}" data-toggle="dropdown">${subMenu.title}</a>
+                        {{if subMenu.subMenu}}
+                          <ul class="dropdown-menu">
+                            {{each(k, subSubMenu) subMenu.subMenu}}
+                              <li><a href="${subSubMenu.link}">${subSubMenu.title}</a></li>
+                            {{/each}}
+                          </ul>
+                        {{/if}}
+                      </li>
+                    {{/each}}
+                  </ul>
+                {{/if}}
+                {{if !menu.subMenu}}
+                    <a href="${menu.link}">${menu.title}</a>
+                {{/if}}
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+  </script>
