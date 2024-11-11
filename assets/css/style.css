@@ -163,7 +163,7 @@ a,
 .module,
 .module-small {
   position: relative;
-  padding: 20px 0;
+  padding: 80px 0;
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: cover;
@@ -248,7 +248,7 @@ a,
 }
 
 .bg-dark {
-  background: #111;
+  background: rgba(44, 44, 44, 0.9);
 }
 
 .bg-dark-30:before {
@@ -648,7 +648,7 @@ a,
 --------------------------------------------------------------*/
 .btn {
   border-radius: 0;
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Varela Round", sans-serif;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 11px;
@@ -812,7 +812,7 @@ a,
 
 /* Forms common style */
 .form-control {
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Varela Round", sans-serif;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 11px;
@@ -888,7 +888,7 @@ blockquote {
 }
 
 .font-alt {
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Varela Round", sans-serif;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -1239,11 +1239,11 @@ General Styles - Owlcarousel
 	Navbar
 --------------------------------------------------------------*/
 .navbar-custom {
-  background-color: rgba(10, 10, 10, 0.9);
+  background-color: #854e3e;
   border: 0;
   border-radius: 0;
   z-index: 1000;
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Varela Round", sans-serif;
   text-transform: uppercase;
   letter-spacing: 3px;
   font-size: 11px;
@@ -1269,6 +1269,14 @@ General Styles - Owlcarousel
   color: #fff;
 }
 
+.navbar-brand img {
+  max-height: 100%;
+}
+
+.navbar-brand {
+    padding: 0px 0px;
+  }
+  
 .navbar-custom .nav li > a {
   position: relative;
   color: rgba(255, 255, 255, 0.7);
