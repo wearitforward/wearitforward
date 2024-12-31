@@ -1,3 +1,4 @@
 .history
 assets/images/**
 assets/scss/**
+*.sqlite

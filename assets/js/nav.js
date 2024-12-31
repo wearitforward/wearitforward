@@ -1,71 +1,64 @@
-var navData = [
-    {
+const navDataMap = {
+    "landing": {
         title: "Home",
+        template: "landingTemplate.html",
         link: "index.html#landing",
-    },{
+    },
+    "productList": {
         title: "Shop",
+        template: "productListTemplate.html",
         link: "index.html#productList",
-    },{
+    },
+    "donate": {
         title: "Donate",
-        link: "index.html#donate    ",
-    },{
+        template: "donateTemplate.html",
+        link: "index.html#donate",
+    },
+    "howItWorks": {
         title: "How it works",
+        template: "howItWorksTemplate.html",
         link: "index.html#howItWorks",
     },
-    {
+    "blog": {
         title: "Blog",
         link: "https://blog.wearitforward.org",
-    },{
+    },
+    "aboutUs": {
         title: "About Us",
+        template: "aboutUsTemplate.html",
         link: "index.html#aboutUs",
     },
-    // {
-    //     title: "3 Col",
-    //     link: "shop_product_col_3.html",
-    //   },
-    //   {
-    //     title: "4 Col",
-    //     link: "shop_product_col_4.html",
-    //   },
-    //   {
-    //     title: "Product",
-    //     link: "shop_single_product.html",
-    //   },
-          // {
-    //   title: "Home",
-    //   link: "#",
-    //   subMenu: [
-    //     { title: "Default", link: "index_mp_fullscreen_video_background.html" },
-    //     { title: "One Page", link: "index_op_fullscreen_gradient_overlay.html" },
-    //     { title: "Agency", link: "index_agency.html" },
-    //     { title: "Portfolio", link: "index_portfolio.html" },
-    //     { title: "Restaurant", link: "index_restaurant.html" },
-    //     { title: "Finance", link: "index_finance.html" },
-    //     { title: "Landing Page", link: "index_landing.html" },
-    //     { title: "Photography", link: "index_photography.html" },
-    //     { title: "Shop", link: "index_shop.html" }
-    //   ]
-    // },
+}
 
-    // Add more menu items as needed
-  ];
+// Generate the navData array from the navDataMap
+const navData = [];
+for (var key in navDataMap) {
+    navData.push({
+        name: key,
+        title: navDataMap[key].title,
+        link: navDataMap[key].link,
+        template: navDataMap[key].template,
+    });
+}
 
-  $(window).on('hashchange', function() {
+
+
+$(window).on('hashchange', function () {
     console.log('hashchange');
     loadBodyContent();
 
 });
-  
-  $(document).ready(function() {
+
+$(document).ready(function () {
     // Check if the navTemplate exists
     loadBodyContent();
-  });
+});
 
 function loadBodyContent() {
     if ($('#navTemplate').length === 0) {
         $.get('tmpl/navTemplate.html', function (template) {
             $('body').append(template);
-            $("#navTemplate").tmpl({ navData: navData }).appendTo(".navbar");
+            $("#navTemplate").tmpl({ navData: navData }).appendTo(".navbar")
         });
     }
 
@@ -78,8 +71,13 @@ function loadBodyContent() {
     $.get(template, function (template) {
         $('body').append(template);
         //  Remove the current contents of the t-body
-        $("#t-body").empty();        
-        $("#sectionTemplate").tmpl().appendTo("#t-body");
+        $("#t-body").empty();
+        $("#sectionTemplate").tmpl().appendTo("#t-body").ready(function () {
+            // Add the active class to the current menu item
+            // var fragment = getFragment();
+            // $('a[href$="' + fragment + '"]').addClass('active');
+            // alert('ready');
+        })
     });
 
     if ($('#footerTemplate').length === 0) {
@@ -90,10 +88,10 @@ function loadBodyContent() {
     }
 }
 
-    function getFragment() {
-        var fragment = window.location.hash.substr(1);
-        if (fragment === '') {
-            fragment = 'landing';
-        }
-        return fragment;
+function getFragment() {
+    var fragment = window.location.hash.substr(1);
+    if (fragment === '') {
+        fragment = 'landing';
     }
+    return fragment;
+}
