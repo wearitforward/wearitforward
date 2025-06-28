@@ -2,3 +2,4 @@
 assets/images/**
 assets/scss/**
 *.sqlite
+data/

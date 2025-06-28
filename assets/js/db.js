@@ -17,7 +17,8 @@ $.ajaxSetup({
 });
 
 initSqlJs(config).then(function(SQL){
-  const dbURL = 'wif.db.sqlite'; // Replace with your database URL!
+//   const dbURL = 'data/pb_data/data.db'; // Replace with your database URL!
+  const dbURL = 'data/pb_data/data.db'; // Replace with your database URL!
 
   $.ajax({
     url: dbURL,

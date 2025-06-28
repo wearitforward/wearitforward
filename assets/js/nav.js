@@ -9,6 +9,11 @@ const navDataMap = {
         template: "productListTemplate.html",
         link: "index.html#productList",
     },
+    "productDetails": {
+        title: "Product Details",
+        template: "productDetailsTemplate.html",
+        link: "index.html#productDetails",
+    },
     "donate": {
         title: "Donate",
         template: "donateTemplate.html",
@@ -63,7 +68,10 @@ function loadBodyContent() {
     }
 
     fragment = getFragment();
-    template = 'tmpl/' + fragment + 'Template.html';
+    // Get the config for the current fragment
+    var frag_config = navDataMap[fragment];
+    // Load the template for the current fragment
+    template = 'tmpl/' + frag_config.template;
     if ($('#sectionTemplate').length > 0) {
         // Remove the current section template
         $("#sectionTemplate").remove();
@@ -72,7 +80,13 @@ function loadBodyContent() {
         $('body').append(template);
         //  Remove the current contents of the t-body
         $("#t-body").empty();
-        $("#sectionTemplate").tmpl().appendTo("#t-body").ready(function () {
+
+        data = executeFn("_before_load");
+        
+
+        $("#sectionTemplate").tmpl(data).appendTo("#t-body").ready(function () {
+            executeFn("_after_load");
+
             // Add the active class to the current menu item
             // var fragment = getFragment();
             // $('a[href$="' + fragment + '"]').addClass('active');
@@ -86,6 +100,15 @@ function loadBodyContent() {
             $("#footerTemplate").tmpl().appendTo(".footer");
         });
     }
+}
+
+function executeFn(postfix) {
+    postload_fn_name = fragment + postfix;
+
+    if (typeof window[postload_fn_name] === 'function') {
+        return window[postload_fn_name]();
+    } else
+        return null;
 }
 
 function getFragment() {
