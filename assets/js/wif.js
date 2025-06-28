@@ -9,3 +9,12 @@ function productList_before_load() {
 function productList__after_load() {
     
 }
+
+function productDetails_before_load() {
+    console.log('productDetails_before_load called');
+}
+
+function productDetails__after_load() {
+    // This function is called after the product details template is loaded
+    // You can add any necessary logic here, such as initializing event listeners
+}
