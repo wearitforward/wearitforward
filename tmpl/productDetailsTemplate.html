@@ -10,33 +10,32 @@
         <section class="module">
           <div class="container">
             <div class="row">
-              <div class="col-sm-6 mb-sm-40"><img id="active_image" src="assets/images/shop/product-7.jpg" alt="Single Product Image"/>
+              <div class="col-sm-6 mb-sm-40"><img id="active_image" src="${main_image_url}" alt="${title}"/>
                 <ul class="product-gallery">
-                <li><a class="gallery" href="assets/images/shop/product-7.jpg" onclick="setActiveImage('assets/images/shop/product-7.jpg'); return false;"><img src="assets/images/shop/product-7.jpg" alt="Single Product"/></a></li>
-                <li><a class="gallery" href="assets/images/shop/product-8.jpg" onclick="setActiveImage('assets/images/shop/product-8.jpg'); return false;"><img src="assets/images/shop/product-8.jpg" alt="Single Product"/></a></li>
-                <li><a class="gallery" href="assets/images/shop/product-9.jpg" onclick="setActiveImage('assets/images/shop/product-9.jpg'); return false;"><img src="assets/images/shop/product-9.jpg" alt="Single Product"/></a></li>
-                <li><a class="gallery" href="assets/images/shop/product-10.jpg" onclick="setActiveImage('assets/images/shop/product-10.jpg'); return false;"><img src="assets/images/shop/product-10.jpg" alt="Single Product"/></a></li>
+                {{each(i, image) images}}
+                <li><a class="gallery" href="${image}" onclick="setActiveImage('${image}'); return false;"><img src="${image}" alt="${title} image ${i+1}"/></a></li>
+                {{/each}}
                 </ul>
               </div>
               <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12">
-                    <h1 class="product-title font-alt">Accessories Pack</h1>
+                    <h1 class="product-title font-alt">${title}</h1>
                   </div>
                 </div>
-                <!-- <div class="row mb-20">
-                  <div class="col-sm-12"><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star-off"></i></span><a class="open-tab section-scroll" href="#reviews">-2customer reviews</a>
+                <div class="row mb-20">
+                  <div class="col-sm-12"><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star-off"></i></span><a class="open-tab section-scroll" href="#reviews">- ${review_count} customer reviews</a>
                   </div>
-                </div> -->
+                </div>
                 <div class="row mb-20">
                   <div class="col-sm-12">
-                    <div class="price font-alt"><span class="amount">£20.00</span></div>
+                    <div class="price font-alt"><span class="amount">£${price}</span></div>
                   </div>
                 </div>
                 <div class="row mb-20">
                   <div class="col-sm-12">
                     <div class="description">
-                      <p>The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.</p>
+                      <p>${description}</p>
                     </div>
                   </div>
                 </div>
@@ -48,7 +47,10 @@
                 </div>
                 <div class="row mb-20">
                   <div class="col-sm-12">
-                    <div class="product_meta">Categories:<a href="#"> Man, </a><a href="#">Clothing, </a><a href="#">T-shirts</a>
+                    <div class="product_meta">Categories:
+                        {{each(i, category) categories}}
+                        <a href="#">${category}</a>{{if i < categories.length - 1}}, {{/if}}
+                        {{/each}}
                     </div>
                   </div>
                 </div>
@@ -63,19 +65,19 @@
                             </tr>
                             <tr>
                               <td>Compositions</td>
-                              <td>Jeans</td>
+                              <td>${details.compositions}</td>
                             </tr>
                             <tr>
                               <td>Size</td>
-                              <td>44, 46, 48</td>
+                              <td>${details.sizes}</td>
                             </tr>
                             <tr>
                               <td>Color</td>
-                              <td>Black</td>
+                              <td>${details.color}</td>
                             </tr>
                             <tr>
                               <td>Brand</td>
-                              <td>Somebrand</td>
+                              <td>${details.brand}</td>
                             </tr>
                           </tbody>
                         </table>
