@@ -46,11 +46,9 @@ The application logic is primarily contained within `assets/js/wif.js`. It manag
 ### How to Modify the Database
 
 1.  Modify `data/schema.sql` (for schema changes) or `data/initial_data.sql` (for data changes).
-2.  Re-generate the database file by running the following commands from the project root:
+2.  Re-generate the database file by running the following script from the project root:
     ```bash
-    rm wif.db.sqlite
-    sqlite3 wif.db.sqlite < data/schema.sql
-    sqlite3 wif.db.sqlite < data/initial_data.sql
+    ./data/db_setup.sh
     ```
 3.  Reload the application in your browser.
 
