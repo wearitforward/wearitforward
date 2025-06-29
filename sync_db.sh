@@ -1,4 +1,4 @@
-cd data/pb_data
+cd data
 
 sqlite3 data.db "PRAGMA wal_checkpoint"
 sqlite3 data.db "VACUUM"

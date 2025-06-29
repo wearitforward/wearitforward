@@ -2,4 +2,5 @@
 assets/images/**
 assets/scss/**
 *.sqlite
-data/
+.aider*
+**/data.db

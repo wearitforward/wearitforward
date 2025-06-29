@@ -3,47 +3,57 @@ const navDataMap = {
         title: "Home",
         template: "landingTemplate.html",
         link: "index.html#landing",
+        isMenu: true,
     },
     "productList": {
         title: "Shop",
         template: "productListTemplate.html",
         link: "index.html#productList",
+        isMenu: true,
     },
     "productDetails": {
         title: "Product Details",
         template: "productDetailsTemplate.html",
         link: "index.html#productDetails",
+        isMenu: false,
     },
     "donate": {
         title: "Donate",
         template: "donateTemplate.html",
         link: "index.html#donate",
+        isMenu: true,
     },
     "howItWorks": {
         title: "How it works",
         template: "howItWorksTemplate.html",
         link: "index.html#howItWorks",
+        isMenu: true,
     },
     "blog": {
         title: "Blog",
         link: "https://blog.wearitforward.org",
+        isMenu: true,
     },
     "aboutUs": {
         title: "About Us",
         template: "aboutUsTemplate.html",
         link: "index.html#aboutUs",
+        isMenu: true,
     },
 }
 
 // Generate the navData array from the navDataMap
 const navData = [];
 for (var key in navDataMap) {
-    navData.push({
-        name: key,
-        title: navDataMap[key].title,
-        link: navDataMap[key].link,
-        template: navDataMap[key].template,
-    });
+    
+    if (navDataMap[key].isMenu) {
+        navData.push({
+            name: key,
+            title: navDataMap[key].title,
+            link: navDataMap[key].link,
+            template: navDataMap[key].template,
+        });
+    }
 }
 
 
