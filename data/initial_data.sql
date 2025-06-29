@@ -14,15 +14,23 @@ VALUES (
     'assets/images/shop/product-7.jpg'
 );
 
+-- Insert attribute keys
+INSERT INTO attribute_keys (id, key_name) VALUES
+    (1, 'category'),
+    (2, 'compositions'),
+    (3, 'sizes'),
+    (4, 'color'),
+    (5, 'brand');
+
 -- Insert attributes
-INSERT INTO attributes (id, key, value) VALUES
-    (1, 'category', 'Man'),
-    (2, 'category', 'Clothing'),
-    (3, 'category', 'T-shirts'),
-    (4, 'compositions', 'Jeans'),
-    (5, 'sizes', '44, 46, 48'),
-    (6, 'color', 'Black'),
-    (7, 'brand', 'Somebrand');
+INSERT INTO attributes (id, key_id, value) VALUES
+    (1, 1, 'Man'),
+    (2, 1, 'Clothing'),
+    (3, 1, 'T-shirts'),
+    (4, 2, 'Jeans'),
+    (5, 3, '44, 46, 48'),
+    (6, 4, 'Black'),
+    (7, 5, 'Somebrand');
 
 -- Link attributes to the product
 INSERT INTO product_attributes (product_id, attribute_id) VALUES

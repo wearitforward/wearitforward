@@ -3,6 +3,7 @@
 -- Drop existing tables to start with a clean slate.
 DROP TABLE IF EXISTS product_attributes;
 DROP TABLE IF EXISTS attributes;
+DROP TABLE IF EXISTS attribute_keys;
 DROP TABLE IF EXISTS products;
 
 -- The main table for products.
@@ -20,12 +21,19 @@ CREATE TABLE products (
     main_image_url VARCHAR(255)
 );
 
--- Table for key-value attributes that can be associated with products.
+-- Table for attribute keys (e.g., 'category', 'brand').
+CREATE TABLE attribute_keys (
+    id INTEGER PRIMARY KEY,
+    key_name VARCHAR(255) NOT NULL UNIQUE
+);
+
+-- Table for attribute values.
 CREATE TABLE attributes (
     id INTEGER PRIMARY KEY,
-    key VARCHAR(255) NOT NULL,
+    key_id INTEGER NOT NULL,
     value TEXT NOT NULL,
-    UNIQUE(key, value)
+    FOREIGN KEY (key_id) REFERENCES attribute_keys(id) ON DELETE CASCADE,
+    UNIQUE(key_id, value)
 );
 
 -- Intermediate table to link products with their attributes.

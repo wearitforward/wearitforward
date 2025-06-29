@@ -60,22 +60,12 @@
                               <th>Title</th>
                               <th>Info</th>
                             </tr>
+                            {{each(key, val) details}}
                             <tr>
-                              <td>Compositions</td>
-                              <td>${details.compositions}</td>
+                              <td>${key.charAt(0).toUpperCase() + key.slice(1)}</td>
+                              <td>${val}</td>
                             </tr>
-                            <tr>
-                              <td>Size</td>
-                              <td>${details.sizes}</td>
-                            </tr>
-                            <tr>
-                              <td>Color</td>
-                              <td>${details.color}</td>
-                            </tr>
-                            <tr>
-                              <td>Brand</td>
-                              <td>${details.brand}</td>
-                            </tr>
+                            {{/each}}
                           </tbody>
                         </table>
                       </div>

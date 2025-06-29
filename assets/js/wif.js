@@ -61,16 +61,16 @@ function productDetails_before_load() {
             var products = queryDatabase("SELECT * FROM products WHERE id = " + productId);
             if (products.length > 0) {
                 var product = parseProduct(products[0]);
-                var attributes = queryDatabase("SELECT a.key, a.value FROM attributes a JOIN product_attributes pa ON a.id = pa.attribute_id WHERE pa.product_id = " + productId);
+                var attributes = queryDatabase("SELECT ak.key_name, a.value FROM attributes a JOIN attribute_keys ak ON a.key_id = ak.id JOIN product_attributes pa ON a.id = pa.attribute_id WHERE pa.product_id = " + productId);
                 
                 product.categories = [];
                 product.details = {};
                 
                 attributes.forEach(function(attr) {
-                    if (attr.key === 'category') {
+                    if (attr.key_name === 'category') {
                         product.categories.push(attr.value);
                     } else {
-                        product.details[attr.key] = attr.value;
+                        product.details[attr.key_name] = attr.value;
                     }
                 });
 
