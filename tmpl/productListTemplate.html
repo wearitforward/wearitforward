@@ -34,7 +34,22 @@
       </div>
     </section>
 
-    <div class="modal fade" id="filter-modal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel">
+    <hr class="divider-w">
+    <section class="module-small">
+      <div class="container">
+        <div class="row multi-columns-row">
+            {{tmpl(products) "#productItemTemplate"}}
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="pagination font-alt"><a href="#"><i class="fa fa-angle-left"></i></a><a class="active" href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#"><i class="fa fa-angle-right"></i></a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <hr class="divider-d">
+  </div>
+<div class="modal fade" id="filter-modal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -73,19 +88,4 @@
         </div>
       </div>
     </div>
-    <hr class="divider-w">
-    <section class="module-small">
-      <div class="container">
-        <div class="row multi-columns-row">
-            {{tmpl(products) "#productItemTemplate"}}
-        </div>
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="pagination font-alt"><a href="#"><i class="fa fa-angle-left"></i></a><a class="active" href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#"><i class="fa fa-angle-right"></i></a></div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <hr class="divider-d">
-  </div>
   </script>
