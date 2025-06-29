@@ -1,5 +1,6 @@
 .history
-assets/images/**
+assets/images_/**
+assets/images/shop/**
 assets/scss/**
 *.sqlite
 .aider*
