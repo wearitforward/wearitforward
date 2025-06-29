@@ -162,6 +162,10 @@ function productList__after_load() {
         $('.product-filter-checkbox[data-key="' + key + '"][value="' + value + '"]').prop('checked', false).trigger('change');
     });
 
+    $('body').off('click', '#clear-all-filters').on('click', '#clear-all-filters', function() {
+        $('.product-filter-checkbox:checked').prop('checked', false).trigger('change');
+    });
+
     // For the accordion to work
     $('.collapse').off('shown.bs.collapse hidden.bs.collapse').on('shown.bs.collapse', function () {
         $(this).parent().find(".fa-angle-down").removeClass("fa-angle-down").addClass("fa-angle-up");
