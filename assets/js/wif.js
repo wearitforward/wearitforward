@@ -294,3 +294,18 @@ function productDetails_after_load() {
     // This function is called after the product details template is loaded
     // You can add any necessary logic here, such as initializing event listeners
 }
+
+function cart_before_load() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let total = 0;
+
+    cart.forEach(item => {
+        total += item.price * item.quantity;
+    });
+
+    return { items: cart, total: total };
+}
+
+function cart_after_load() {
+    // Logic for updating quantities and removing items will go here.
+}
