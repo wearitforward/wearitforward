@@ -60,6 +60,7 @@ function productList_before_load() {
     return whenDbReady().then(function() {
         var products = queryDatabase("SELECT * FROM products");
         products.forEach(parseProduct);
+        console.log('Products loaded:', products);
         return { products: products };
     });
 }
