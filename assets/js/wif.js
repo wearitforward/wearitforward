@@ -140,6 +140,7 @@ function productList_after_load() {
 
     function applyFilters() {
         var searchTerm = $('#product-search-input').val().toLowerCase();
+        localStorage.setItem('productSearchTerm', searchTerm);
 
         var selectedFilters = {};
         $('.product-filter-checkbox:checked').each(function() {
@@ -150,6 +151,7 @@ function productList_after_load() {
             }
             selectedFilters[key].push(value);
         });
+        localStorage.setItem('productSelectedFilters', JSON.stringify(selectedFilters));
 
         currentFilteredProducts = window.allProducts.filter(function(product) {
             var textMatch = true;
@@ -201,6 +203,7 @@ function productList_after_load() {
 
     $('#filter-modal').off('click', '#clear-all-filters').on('click', '#clear-all-filters', function() {
         $('.product-filter-checkbox:checked').prop('checked', false);
+        $('#product-search-input').val('');
         currentPage = 1;
         applyFilters();
     });
@@ -216,8 +219,31 @@ function productList_after_load() {
     }).on('hidden.bs.collapse', function () {
         $(this).parent().find(".fa-angle-up").removeClass("fa-angle-up").addClass("fa-angle-down");
     });
+
+    function loadState() {
+        var savedSearchTerm = localStorage.getItem('productSearchTerm');
+        if (savedSearchTerm) {
+            $('#product-search-input').val(savedSearchTerm);
+        }
+
+        var savedFiltersJSON = localStorage.getItem('productSelectedFilters');
+        if (savedFiltersJSON) {
+            try {
+                var savedFilters = JSON.parse(savedFiltersJSON);
+                $('.product-filter-checkbox').prop('checked', false); // First clear all
+                for (var key in savedFilters) {
+                    savedFilters[key].forEach(function(value) {
+                        $('.product-filter-checkbox[data-key="' + key + '"][value="' + value + '"]').prop('checked', true);
+                    });
+                }
+            } catch (e) {
+                console.error('Error parsing saved filters from localStorage:', e);
+            }
+        }
+    }
     
     // Initial call
+    loadState();
     applyFilters();
 }
 
