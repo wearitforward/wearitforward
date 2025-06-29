@@ -162,7 +162,8 @@ function productList__after_load() {
         $('.product-filter-checkbox[data-key="' + key + '"][value="' + value + '"]').prop('checked', false).trigger('change');
     });
 
-    $('#clear-all-filters').off('click').on('click', function() {
+    // Use delegated event listener on the modal to ensure it's attached correctly.
+    $('#filter-modal').off('click', '#clear-all-filters').on('click', '#clear-all-filters', function() {
         $('.product-filter-checkbox:checked').prop('checked', false);
         applyFilters();
     });
