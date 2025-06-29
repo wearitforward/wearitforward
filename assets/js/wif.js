@@ -85,6 +85,19 @@ function productList_before_load() {
 }
 
 function productList__after_load() {
+    function renderFilterPills() {
+        var pillsContainer = $('#filter-pills-container');
+        pillsContainer.empty();
+        $('.product-filter-checkbox:checked').each(function() {
+            var key = $(this).data('key');
+            var value = $(this).val();
+            var pillHTML = '<span class="label label-primary" style="margin-right: 5px; display: inline-block; padding: .3em .6em .3em;">' +
+                           value + ' <span class="remove-pill" data-key="' + key + '" data-value="' + value + '" style="cursor: pointer; margin-left: 5px;">&times;</span>' +
+                           '</span>';
+            pillsContainer.append(pillHTML);
+        });
+    }
+
     function applyFilters() {
         // Get search term
         var searchTerm = $('#product-search-input').val().toLowerCase();
@@ -138,17 +151,26 @@ function productList__after_load() {
         } else {
              productListContainer.html('<div class="col-sm-12"><p>No products match your criteria.</p></div>');
         }
+        renderFilterPills();
     }
 
-    $('#product-search-input').on('keyup', applyFilters);
-    $('body').on('change', '.product-filter-checkbox', applyFilters);
+    $('#product-search-input').off('keyup').on('keyup', applyFilters);
+    $('body').off('change', '.product-filter-checkbox').on('change', '.product-filter-checkbox', applyFilters);
+    $('body').off('click', '.remove-pill').on('click', '.remove-pill', function() {
+        var key = $(this).data('key');
+        var value = $(this).data('value');
+        $('.product-filter-checkbox[data-key="' + key + '"][value="' + value + '"]').prop('checked', false).trigger('change');
+    });
 
     // For the accordion to work
-    $('.collapse').on('shown.bs.collapse', function () {
-        $(this).parent().find(".fa-caret-down").removeClass("fa-caret-down").addClass("fa-caret-up");
+    $('.collapse').off('shown.bs.collapse hidden.bs.collapse').on('shown.bs.collapse', function () {
+        $(this).parent().find(".fa-angle-down").removeClass("fa-angle-down").addClass("fa-angle-up");
     }).on('hidden.bs.collapse', function () {
-        $(this).parent().find(".fa-caret-up").removeClass("fa-caret-up").addClass("fa-caret-down");
+        $(this).parent().find(".fa-angle-up").removeClass("fa-angle-up").addClass("fa-angle-down");
     });
+    
+    // Initial render of pills
+    renderFilterPills();
 }
 
 function productDetails_before_load() {
