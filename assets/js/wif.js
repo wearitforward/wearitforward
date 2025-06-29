@@ -162,8 +162,7 @@ function productList__after_load() {
         $('.product-filter-checkbox[data-key="' + key + '"][value="' + value + '"]').prop('checked', false).trigger('change');
     });
 
-    $('body').off('click', '#clear-all-filters').on('click', '#clear-all-filters', function() {
-        console.log('Clear all filters clicked');
+    $('#clear-all-filters').off('click').on('click', function() {
         $('.product-filter-checkbox:checked').prop('checked', false);
         applyFilters();
     });
