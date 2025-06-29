@@ -163,7 +163,8 @@ function productList__after_load() {
     });
 
     $('body').off('click', '#clear-all-filters').on('click', '#clear-all-filters', function() {
-        $('.product-filter-checkbox:checked').prop('checked', false).trigger('change');
+        $('.product-filter-checkbox:checked').prop('checked', false);
+        applyFilters();
     });
 
     // For the accordion to work
