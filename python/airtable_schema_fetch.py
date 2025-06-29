@@ -27,7 +27,7 @@ def fetch_airtable_schema():
 
         schema = response.json()
 
-        output_file = "data/airtable_schema.json"
+        output_file = "../data/airtable_schema.json"
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(schema, f, indent=2, ensure_ascii=False)
 

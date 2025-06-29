@@ -6,4 +6,5 @@ assets/scss/**
 .aider*
 **/data.db
 .env
-data/airtable_schema.json
+python/.venv
+python/.env
