@@ -185,11 +185,13 @@ function productList_after_load() {
 
     $('#product-search-input').off('keyup').on('keyup', function() {
         currentPage = 1;
+        localStorage.setItem('productListPage', '1');
         applyFilters();
     });
 
     $('body').off('change', '.product-filter-checkbox').on('change', '.product-filter-checkbox', function() {
         currentPage = 1;
+        localStorage.setItem('productListPage', '1');
         applyFilters();
     });
 
@@ -198,6 +200,7 @@ function productList_after_load() {
         var value = $(this).data('value');
         $('.product-filter-checkbox[data-key="' + key + '"][value="' + value + '"]').prop('checked', false);
         currentPage = 1;
+        localStorage.setItem('productListPage', '1');
         applyFilters();
     });
 
@@ -205,12 +208,14 @@ function productList_after_load() {
         $('.product-filter-checkbox:checked').prop('checked', false);
         $('#product-search-input').val('');
         currentPage = 1;
+        localStorage.setItem('productListPage', '1');
         applyFilters();
     });
 
     $('body').off('click', '.page-link').on('click', '.page-link', function(e) {
         e.preventDefault();
         currentPage = parseInt($(this).data('page'));
+        localStorage.setItem('productListPage', currentPage);
         applyFilters();
     });
 
@@ -221,6 +226,11 @@ function productList_after_load() {
     });
 
     function loadState() {
+        var savedPage = localStorage.getItem('productListPage');
+        if (savedPage) {
+            currentPage = parseInt(savedPage, 10);
+        }
+
         var savedSearchTerm = localStorage.getItem('productSearchTerm');
         if (savedSearchTerm) {
             $('#product-search-input').val(savedSearchTerm);

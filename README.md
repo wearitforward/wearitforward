@@ -40,6 +40,7 @@ The application logic is primarily contained within `assets/js/wif.js`. It manag
 - **Page Load Lifecycle**: A simple convention is used for loading views:
     - **`[viewName]_before_load()`**: This function is executed *before* a view's template is rendered. It is responsible for fetching the necessary data from the database using `queryDatabase()`. It should return a jQuery promise that resolves with the data object for the template.
     - **`[viewName]__after_load()`**: This function is executed *after* a view's template has been rendered and added to the DOM. It can be used for post-render logic like initializing plugins or event listeners.
+- **State Persistence**: On the product list page, user's search term, selected filters, and current page number are persisted in the browser's `localStorage`. This ensures that the user's view is restored when they navigate back to the page or refresh it.
 
 ## 4. Development Workflow
 
