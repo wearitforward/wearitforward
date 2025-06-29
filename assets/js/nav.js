@@ -17,6 +17,12 @@ const navDataMap = {
         link: "index.html#productDetails",
         isMenu: false,
     },
+    "cart": {
+        title: "Cart",
+        template: "cartTemplate.html",
+        link: "index.html#cart",
+        isMenu: false,
+    },
     "donate": {
         title: "Donate",
         template: "donateTemplate.html",
@@ -56,7 +62,21 @@ for (var key in navDataMap) {
     }
 }
 
+function addToCart(item) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push(item);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartIcon();
+}
 
+function updateCartIcon() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    if (cart.length > 0) {
+        $('.cart-icon').show();
+    } else {
+        $('.cart-icon').hide();
+    }
+}
 
 $(window).on('hashchange', function () {
     console.log('hashchange');
@@ -73,8 +93,11 @@ function loadBodyContent() {
     if ($('#navTemplate').length === 0) {
         $.get('tmpl/navTemplate.html', function (template) {
             $('body').append(template);
-            $("#navTemplate").tmpl({ navData: navData }).appendTo(".navbar")
+            $("#navTemplate").tmpl({ navData: navData }).appendTo(".navbar");
+            updateCartIcon();
         });
+    } else {
+        updateCartIcon();
     }
 
     fragment = getFragment();
