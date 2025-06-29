@@ -68,6 +68,7 @@ function loadBodyContent() {
     }
 
     fragment = getFragment();
+    console.log('Current fragment:', fragment);
     // Get the config for the current fragment
     var frag_config = navDataMap[fragment];
     // Load the template for the current fragment
@@ -81,17 +82,36 @@ function loadBodyContent() {
         //  Remove the current contents of the t-body
         $("#t-body").empty();
 
+        // First, execute the _before_load function if it exists to fetch data
         data = executeFn("_before_load");
-        
 
-        $("#sectionTemplate").tmpl(data).appendTo("#t-body").ready(function () {
-            executeFn("_after_load");
+        // If its a promise, wait for it to resolve
+        if (data && typeof data.then === 'function') {
+            // Return early and chain the template rendering after the promise resolves
+            return data.then(function (resolvedData) {
+                console.log('Data resolved:', resolvedData);
+                renderTemplate(resolvedData || {});
+            }).catch(function (error) {
+                console.error('Error resolving data:', error);
+                renderTemplate({});
+            });
+        } else {
+            // For non-promise data, just render immediately
+            renderTemplate(data || {});
+        }
 
-            // Add the active class to the current menu item
-            // var fragment = getFragment();
-            // $('a[href$="' + fragment + '"]').addClass('active');
-            // alert('ready');
-        })
+
+        // Helper function to avoid code duplication
+        function renderTemplate(templateData) {
+            $("#sectionTemplate").tmpl(templateData).appendTo("#t-body").ready(function () {
+                console.log("Template rendered for fragment:", fragment);
+                executeFn("_after_load");
+            });
+        }
+
+        // Don't continue with the code below when handling promises
+        return;
+
     });
 
     if ($('#footerTemplate').length === 0) {
@@ -112,8 +132,14 @@ function executeFn(postfix) {
 }
 
 function getFragment() {
-    var fragment = window.location.hash.substr(1);
-    if (fragment === '') {
+    var hash = window.location.hash;
+    if (hash === '') {
+        return 'landing';
+    }
+    // Remove the leading '#' and request parameters
+    var fragment = hash.substring(1).split('?')[0];
+    // If the fragment is not in the navDataMap, default to 'landing'
+    if (!navDataMap.hasOwnProperty(fragment)) {
         fragment = 'landing';
     }
     return fragment;
