@@ -18,7 +18,7 @@ The application follows a simple, client-side architecture pattern.
 
 ### 3.1. Client-Side Database
 
-The entire application state (products, reviews, etc.) is stored in a client-side SQLite database.
+The entire application state (products and their attributes) is stored in a client-side SQLite database.
 
 - **Database File**: The database is loaded from a static file: `wif.db.sqlite`.
 - **Schema**: The database schema is defined in `data/schema.sql`.

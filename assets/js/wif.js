@@ -32,22 +32,6 @@ function parseProduct(product) {
                 product.images = [];
             }
         }
-        if (product.categories && typeof product.categories === 'string') {
-            try {
-                product.categories = JSON.parse(product.categories);
-            } catch (e) {
-                console.error('Failed to parse categories JSON:', e);
-                product.categories = [];
-            }
-        }
-        if (product.details && typeof product.details === 'string') {
-            try {
-                product.details = JSON.parse(product.details);
-            } catch (e) {
-                console.error('Failed to parse details JSON:', e);
-                product.details = {};
-            }
-        }
     }
     return product;
 }
@@ -76,7 +60,21 @@ function productDetails_before_load() {
         return whenDbReady().then(function() {
             var products = queryDatabase("SELECT * FROM products WHERE id = " + productId);
             if (products.length > 0) {
-                return parseProduct(products[0]);
+                var product = parseProduct(products[0]);
+                var attributes = queryDatabase("SELECT a.key, a.value FROM attributes a JOIN product_attributes pa ON a.id = pa.attribute_id WHERE pa.product_id = " + productId);
+                
+                product.categories = [];
+                product.details = {};
+                
+                attributes.forEach(function(attr) {
+                    if (attr.key === 'category') {
+                        product.categories.push(attr.value);
+                    } else {
+                        product.details[attr.key] = attr.value;
+                    }
+                });
+
+                return product;
             } else {
                 console.error('Product with id ' + productId + ' not found.');
                 return {};
