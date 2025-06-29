@@ -1,5 +1,9 @@
 .history
-assets/images/**
+assets/images_/**
+assets/images/shop/**
 assets/scss/**
 .aider*
 **/data.db
+.env
+python/.venv
+python/.env

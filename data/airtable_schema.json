@@ -1,0 +1,501 @@
+{
+  "tables": [
+    {
+      "id": "tblVKOTcBAJTYpBau",
+      "name": "Inventory Items",
+      "primaryFieldId": "fldGo9a09ypP5hvBD",
+      "fields": [
+        {
+          "type": "singleLineText",
+          "id": "fldGo9a09ypP5hvBD",
+          "name": "Item Name"
+        },
+        {
+          "type": "multilineText",
+          "id": "fldoFs1FRGnKSzHVo",
+          "name": "Description"
+        },
+        {
+          "type": "number",
+          "options": {
+            "precision": 0
+          },
+          "id": "fldY0br4SB0qRCcnS",
+          "name": "Quantity"
+        },
+        {
+          "type": "singleSelect",
+          "options": {
+            "choices": [
+              {
+                "id": "selnQttR1pWQqpWSN",
+                "name": "New",
+                "color": "blueLight2"
+              },
+              {
+                "id": "selXkm4gJQ8Uriul0",
+                "name": "Like New",
+                "color": "cyanLight2"
+              },
+              {
+                "id": "selR745ctPY0cGTjE",
+                "name": "Good",
+                "color": "tealLight2"
+              },
+              {
+                "id": "seljZmHt7f0dLkKBs",
+                "name": "Fair",
+                "color": "greenLight2"
+              },
+              {
+                "id": "selVWaoy30SPNmRcR",
+                "name": "Poor",
+                "color": "yellowLight2"
+              }
+            ]
+          },
+          "id": "fld6tUPjk7k8GyCmM",
+          "name": "Condition"
+        },
+        {
+          "type": "currency",
+          "options": {
+            "precision": 2,
+            "symbol": "$"
+          },
+          "id": "fldPNqZWLVAQ9pDqd",
+          "name": "Price"
+        },
+        {
+          "type": "multipleAttachments",
+          "options": {
+            "isReversed": true
+          },
+          "id": "fldpirIiN1u0doB1s",
+          "name": "Images"
+        },
+        {
+          "type": "date",
+          "options": {
+            "dateFormat": {
+              "name": "local",
+              "format": "l"
+            }
+          },
+          "id": "fldkPGwpUsgD0WVuQ",
+          "name": "Scheduled Listing Date"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblH4fX7YYm5EM0ON",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "flduQ2yEeODdYCtkl"
+          },
+          "id": "fldY6XMdMmb1PK0Cb",
+          "name": "Related Tasks"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblWCGn0WUdK8qnzl",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fldde3JyWan7YsGtV"
+          },
+          "id": "fld4HxoRX20xwfbPE",
+          "name": "Sales and Donations Record"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblNvN1I84izhSlzn",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fldEvZHlbkTtQWfkt"
+          },
+          "id": "fldpVyY8tv10x3rHs",
+          "name": "Inventory Attributes"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwHNhLgevoiljwRj",
+          "name": "Grid view",
+          "type": "grid"
+        }
+      ]
+    },
+    {
+      "id": "tblWCGn0WUdK8qnzl",
+      "name": "Sales and Donations",
+      "primaryFieldId": "fldxQ2mtKIV4ItS4e",
+      "fields": [
+        {
+          "type": "singleLineText",
+          "id": "fldxQ2mtKIV4ItS4e",
+          "name": "Transaction ID"
+        },
+        {
+          "type": "date",
+          "options": {
+            "dateFormat": {
+              "name": "local",
+              "format": "l"
+            }
+          },
+          "id": "fldUnUIespmFXY93Q",
+          "name": "Transaction Date"
+        },
+        {
+          "type": "singleSelect",
+          "options": {
+            "choices": [
+              {
+                "id": "seltjc3Ed9ANViG83",
+                "name": "Sale",
+                "color": "blueLight2"
+              },
+              {
+                "id": "selwa2Fggg61P1GOX",
+                "name": "Donation",
+                "color": "cyanLight2"
+              }
+            ]
+          },
+          "id": "fldlLjU9r8arYwdT9",
+          "name": "Transaction Type"
+        },
+        {
+          "type": "currency",
+          "options": {
+            "precision": 2,
+            "symbol": "$"
+          },
+          "id": "fld0jDylTGOenFvEI",
+          "name": "Amount"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblVKOTcBAJTYpBau",
+            "isReversed": false,
+            "prefersSingleRecordLink": true,
+            "inverseLinkFieldId": "fld4HxoRX20xwfbPE"
+          },
+          "id": "fldde3JyWan7YsGtV",
+          "name": "Inventory Item"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblKpiLDkLjkobYza",
+            "isReversed": false,
+            "prefersSingleRecordLink": true,
+            "inverseLinkFieldId": "fldAK4a4fkynWVoed"
+          },
+          "id": "fldAEiTdDchCKHD5D",
+          "name": "Volunteer"
+        },
+        {
+          "type": "singleSelect",
+          "options": {
+            "choices": [
+              {
+                "id": "selwhlmCbLZrlEgXr",
+                "name": "Cash",
+                "color": "blueLight2"
+              },
+              {
+                "id": "selRY0Sh0Pvxsypxt",
+                "name": "Credit Card",
+                "color": "cyanLight2"
+              },
+              {
+                "id": "sel4H0DezjG1VHp65",
+                "name": "Online Payment",
+                "color": "tealLight2"
+              },
+              {
+                "id": "selKShEY4jhghH0wm",
+                "name": "Other",
+                "color": "greenLight2"
+              }
+            ]
+          },
+          "id": "fldC7rDuvwXQ4HkIt",
+          "name": "Payment Method"
+        },
+        {
+          "type": "singleLineText",
+          "id": "fldtYJJYGA7jAYGuZ",
+          "name": "Donor or Customer Name"
+        },
+        {
+          "type": "multipleAttachments",
+          "options": {
+            "isReversed": true
+          },
+          "id": "fldpDgk6DeylKXVsq",
+          "name": "Receipt Photo"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwrEZix4egXGQqEg",
+          "name": "Grid view",
+          "type": "grid"
+        }
+      ]
+    },
+    {
+      "id": "tblH4fX7YYm5EM0ON",
+      "name": "Tasks",
+      "primaryFieldId": "fldm4yy6mJl8Oiblm",
+      "fields": [
+        {
+          "type": "singleLineText",
+          "id": "fldm4yy6mJl8Oiblm",
+          "name": "Task Name"
+        },
+        {
+          "type": "multilineText",
+          "id": "fldq194GvJt4wjrAb",
+          "name": "Task Description"
+        },
+        {
+          "type": "date",
+          "options": {
+            "dateFormat": {
+              "name": "local",
+              "format": "l"
+            }
+          },
+          "id": "fldOpruc0eciOKPtU",
+          "name": "Due Date"
+        },
+        {
+          "type": "singleSelect",
+          "options": {
+            "choices": [
+              {
+                "id": "selr0w1Ejv5pBY4oT",
+                "name": "Low",
+                "color": "blueLight2"
+              },
+              {
+                "id": "selTAkGyLxtCoULLb",
+                "name": "Medium",
+                "color": "cyanLight2"
+              },
+              {
+                "id": "sel7DSeqmEJZs36f2",
+                "name": "High",
+                "color": "tealLight2"
+              }
+            ]
+          },
+          "id": "fldtTzyWXcFbuqoX1",
+          "name": "Priority"
+        },
+        {
+          "type": "singleSelect",
+          "options": {
+            "choices": [
+              {
+                "id": "selkjVLGRHJrxo6xq",
+                "name": "Not Started",
+                "color": "blueLight2"
+              },
+              {
+                "id": "seljM9PNT5JZ54w5d",
+                "name": "In Progress",
+                "color": "cyanLight2"
+              },
+              {
+                "id": "selaP2MUsoa7QtiU4",
+                "name": "Completed",
+                "color": "tealLight2"
+              }
+            ]
+          },
+          "id": "fldAgcw2JXshwk19E",
+          "name": "Status"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblKpiLDkLjkobYza",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fld2T696MRXLZ5sEy"
+          },
+          "id": "fldGwFl7HjGaI9U1P",
+          "name": "Assigned Volunteers"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblVKOTcBAJTYpBau",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fldY6XMdMmb1PK0Cb"
+          },
+          "id": "flduQ2yEeODdYCtkl",
+          "name": "Related Inventory Items"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwxJVnij3drvRyrT",
+          "name": "Grid view",
+          "type": "grid"
+        }
+      ]
+    },
+    {
+      "id": "tblKpiLDkLjkobYza",
+      "name": "Volunteers",
+      "primaryFieldId": "fld2bOMiOVfgWej1u",
+      "fields": [
+        {
+          "type": "singleLineText",
+          "id": "fld2bOMiOVfgWej1u",
+          "name": "Volunteer Name"
+        },
+        {
+          "type": "multilineText",
+          "id": "fldWvPRHyw92hyHMj",
+          "name": "Contact Information"
+        },
+        {
+          "type": "multipleSelects",
+          "options": {
+            "choices": [
+              {
+                "id": "selOob1hQSuwU4vY4",
+                "name": "Weekdays",
+                "color": "blueLight2"
+              },
+              {
+                "id": "selCcV1rWs78L3eMg",
+                "name": "Weekends",
+                "color": "cyanLight2"
+              },
+              {
+                "id": "selipJdAkRtVEYM1s",
+                "name": "Evenings",
+                "color": "tealLight2"
+              }
+            ]
+          },
+          "id": "fldQyeonp1iTprvQ1",
+          "name": "Availability"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblH4fX7YYm5EM0ON",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fldGwFl7HjGaI9U1P"
+          },
+          "id": "fld2T696MRXLZ5sEy",
+          "name": "Assigned Tasks"
+        },
+        {
+          "type": "singleLineText",
+          "id": "fldRnexUDURgdnq7x",
+          "name": "Schedule"
+        },
+        {
+          "type": "number",
+          "options": {
+            "precision": 0
+          },
+          "id": "fldIT7YhbZGOrx3jc",
+          "name": "Total Hours Worked"
+        },
+        {
+          "type": "multipleAttachments",
+          "options": {
+            "isReversed": true
+          },
+          "id": "fld6rrquLmwGojkRH",
+          "name": "Profile Photo"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblWCGn0WUdK8qnzl",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fldAEiTdDchCKHD5D"
+          },
+          "id": "fldAK4a4fkynWVoed",
+          "name": "Sales and Donations"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwjr0zhKtzk0gkef",
+          "name": "Grid view",
+          "type": "grid"
+        }
+      ]
+    },
+    {
+      "id": "tblNvN1I84izhSlzn",
+      "name": "Inventory Attributes",
+      "primaryFieldId": "fldKcbzBMbahenSIB",
+      "fields": [
+        {
+          "type": "formula",
+          "options": {
+            "isValid": true,
+            "formula": "CONCATENATE({fldyFdbznnMJSTfet}, ': ', {fldFR3a9WWZUtZrcM})",
+            "referencedFieldIds": [
+              "fldyFdbznnMJSTfet",
+              "fldFR3a9WWZUtZrcM"
+            ],
+            "result": {
+              "type": "singleLineText"
+            }
+          },
+          "id": "fldKcbzBMbahenSIB",
+          "name": "Attribute",
+          "description": "Combines the Attribute Key and Attribute Value fields into a single text value."
+        },
+        {
+          "type": "singleLineText",
+          "id": "fldyFdbznnMJSTfet",
+          "name": "Key"
+        },
+        {
+          "type": "singleLineText",
+          "id": "fldFR3a9WWZUtZrcM",
+          "name": "Value"
+        },
+        {
+          "type": "multipleRecordLinks",
+          "options": {
+            "linkedTableId": "tblVKOTcBAJTYpBau",
+            "isReversed": false,
+            "prefersSingleRecordLink": false,
+            "inverseLinkFieldId": "fldpVyY8tv10x3rHs"
+          },
+          "id": "fldEvZHlbkTtQWfkt",
+          "name": "Related Inventory Items"
+        }
+      ],
+      "views": [
+        {
+          "id": "viwoC8SKMMAGLr4fz",
+          "name": "Grid view",
+          "type": "grid"
+        }
+      ]
+    }
+  ]
+}

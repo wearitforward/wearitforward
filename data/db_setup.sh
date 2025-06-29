@@ -4,7 +4,7 @@
 # Set the project root directory relative to the script location
 cd "$(dirname "$0")/.."
 
-DB_FILE="wif.db.sqlite"
+DB_FILE="data/wif.db.sqlite"
 SCHEMA_FILE="data/schema.sql"
 DATA_FILE="data/initial_data.sql"
 

@@ -17,6 +17,12 @@ const navDataMap = {
         link: "index.html#productDetails",
         isMenu: false,
     },
+    "cart": {
+        title: "Cart",
+        template: "cartTemplate.html",
+        link: "index.html#cart",
+        isMenu: false,
+    },
     "donate": {
         title: "Donate",
         template: "donateTemplate.html",
@@ -56,7 +62,44 @@ for (var key in navDataMap) {
     }
 }
 
+function addToCart(item) {
+    console.log('Adding item to cart:', item);
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
 
+    if (existingItemIndex > -1) {
+        cart[existingItemIndex].quantity += item.quantity;
+    } else {
+        cart.push(item);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartIcon();
+}
+
+function updateCartIcon() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    if (totalItems > 0) {
+        $('.cart-icon').show();
+        $('#cart-count').text('(' + totalItems + ') ');
+    } else {
+        $('.cart-icon').hide();
+    }
+}
+
+function removeFromCart(productId) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart = cart.filter(item => item.id !== productId);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartIcon();
+}
+
+function updateCart(newCart) {
+    localStorage.setItem('cart', JSON.stringify(newCart));
+    updateCartIcon();
+}
 
 $(window).on('hashchange', function () {
     console.log('hashchange');
@@ -73,8 +116,11 @@ function loadBodyContent() {
     if ($('#navTemplate').length === 0) {
         $.get('tmpl/navTemplate.html', function (template) {
             $('body').append(template);
-            $("#navTemplate").tmpl({ navData: navData }).appendTo(".navbar")
+            $("#navTemplate").tmpl({ navData: navData }).appendTo(".navbar");
+            updateCartIcon();
         });
+    } else {
+        updateCartIcon();
     }
 
     fragment = getFragment();
