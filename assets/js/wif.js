@@ -84,7 +84,9 @@ function productList_before_load() {
     });
 }
 
-function productList__after_load() {
+function productList_after_load() {
+    console.log('productList__after_load called');
+
     function renderFilterPills() {
         var pillsContainer = $('#filter-pills-container');
         pillsContainer.empty();
@@ -167,6 +169,7 @@ function productList__after_load() {
         $('.product-filter-checkbox:checked').prop('checked', false);
         applyFilters();
     });
+    console.log("too soon");
 
     // For the accordion to work
     $('.collapse').off('shown.bs.collapse hidden.bs.collapse').on('shown.bs.collapse', function () {
@@ -212,7 +215,7 @@ function productDetails_before_load() {
     }
 }
 
-function productDetails__after_load() {
+function productDetails_after_load() {
     // This function is called after the product details template is loaded
     // You can add any necessary logic here, such as initializing event listeners
 }
