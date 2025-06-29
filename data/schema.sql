@@ -1,7 +1,6 @@
 
 
 -- Drop existing tables to start with a clean slate.
-DROP TABLE IF EXISTS reviews;
 DROP TABLE IF EXISTS products;
 
 -- The main table for products.
@@ -19,23 +18,8 @@ CREATE TABLE products (
     main_image_url VARCHAR(255),
     -- JSON array of category names, e.g., '["Man", "Clothing", "T-shirts"]'
     categories TEXT,
-    -- Average rating, can be calculated from reviews.
-    avg_rating NUMERIC DEFAULT 0.0,
-    -- Total number of reviews.
-    review_count INTEGER DEFAULT 0,
     -- Other details like brand, color, sizes, compositions.
     -- Example: '{"brand": "Somebrand", "color": "Black", "sizes": ["44", "46", "48"], "compositions": "Jeans"}'
     details TEXT
-);
-
--- Table for product reviews.
-CREATE TABLE reviews (
-    id INTEGER PRIMARY KEY,
-    product_id INTEGER NOT NULL,
-    rating INTEGER NOT NULL,
-    review_text TEXT,
-    reviewer_name VARCHAR(255) DEFAULT 'Anonymous',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE CASCADE
 );
 
