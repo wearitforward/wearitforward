@@ -93,7 +93,7 @@ function productList_after_load() {
         $('.product-filter-checkbox:checked').each(function() {
             var key = $(this).data('key');
             var value = $(this).val();
-            var pillHTML = '<span class="label label-primary" style="margin-right: 5px; display: inline-block; padding: .3em .6em .3em;">' +
+            var pillHTML = '<span class="label label-primary" style="margin-right: 5px; display: inline-block; padding: 0.5em 0.8em; font-size: 14px;">' +
                            value + ' <span class="remove-pill" data-key="' + key + '" data-value="' + value + '" style="cursor: pointer; margin-left: 5px;">&times;</span>' +
                            '</span>';
             pillsContainer.append(pillHTML);
