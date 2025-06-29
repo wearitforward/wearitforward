@@ -1,3 +1,5 @@
+window.allProducts = [];
+
 function getParamsFromHash(hash) {
     var params = {};
     var queryString = hash.split('?')[1];
@@ -42,15 +44,111 @@ function parseProduct(product) {
 
 function productList_before_load() {
     return whenDbReady().then(function() {
+        // Fetch all products
         var products = queryDatabase("SELECT * FROM products");
         products.forEach(parseProduct);
-        console.log('Products loaded:', products);
-        return { products: products };
+
+        // Fetch all product-attribute relations
+        var productAttributes = queryDatabase("SELECT pa.product_id, ak.key_name, a.value FROM product_attributes pa JOIN attributes a ON pa.attribute_id = a.id JOIN attribute_keys ak ON a.key_id = ak.id");
+
+        // Attach attributes to each product
+        products.forEach(function(product) {
+            product.attributes = {};
+            productAttributes.forEach(function(attr) {
+                if (attr.product_id === product.id) {
+                    if (!product.attributes[attr.key_name]) {
+                        product.attributes[attr.key_name] = [];
+                    }
+                    product.attributes[attr.key_name].push(attr.value);
+                }
+            });
+        });
+        
+        // Store all products for client-side filtering
+        window.allProducts = products;
+
+        // Fetch all available filters
+        var filters = {};
+        var attributeKeys = queryDatabase("SELECT * FROM attribute_keys");
+        attributeKeys.forEach(function(key) {
+            var attributeValues = queryDatabase("SELECT DISTINCT value FROM attributes WHERE key_id = " + key.id + " ORDER BY value");
+            if (attributeValues.length > 0) {
+                 filters[key.key_name] = {
+                    key_id: key.id,
+                    values: attributeValues.map(function(v) { return v.value; })
+                };
+            }
+        });
+
+        return { products: products, filters: filters };
     });
 }
 
 function productList__after_load() {
-    
+    function applyFilters() {
+        // Get search term
+        var searchTerm = $('#product-search-input').val().toLowerCase();
+
+        // Get selected filters
+        var selectedFilters = {};
+        $('.product-filter-checkbox:checked').each(function() {
+            var key = $(this).data('key');
+            var value = $(this).val();
+            if (!selectedFilters[key]) {
+                selectedFilters[key] = [];
+            }
+            selectedFilters[key].push(value);
+        });
+
+        // Filter products
+        var filteredProducts = window.allProducts.filter(function(product) {
+            // Text search
+            var textMatch = true;
+            if (searchTerm) {
+                textMatch = (product.title.toLowerCase().indexOf(searchTerm) > -1) ||
+                            (product.description.toLowerCase().indexOf(searchTerm) > -1);
+            }
+
+            // Attribute filter
+            var attributeMatch = true;
+            for (var key in selectedFilters) {
+                if (!product.attributes[key]) {
+                    attributeMatch = false;
+                    break;
+                }
+                var hasAtLeastOneValue = selectedFilters[key].some(function(v) {
+                    return product.attributes[key].indexOf(v) > -1;
+                });
+
+                if (!hasAtLeastOneValue) {
+                    attributeMatch = false;
+                    break;
+                }
+            }
+            
+            return textMatch && attributeMatch;
+        });
+
+        // Re-render product list
+        var productListContainer = $('.multi-columns-row');
+        productListContainer.empty();
+        
+        if (filteredProducts.length > 0) {
+            $("#productItemTemplate").tmpl(filteredProducts).appendTo(productListContainer);
+        } else {
+             productListContainer.html('<div class="col-sm-12"><p>No products match your criteria.</p></div>');
+        }
+    }
+
+    $('#product-search-input').on('keyup', applyFilters);
+    $('body').on('change', '.product-filter-checkbox', applyFilters);
+
+    // For the accordion to work
+    $('.collapse').on('shown.bs.collapse', function () {
+        $(this).parent().find(".fa-caret-down").removeClass("fa-caret-down").addClass("fa-caret-up");
+    }).on('hidden.bs.collapse', function () {
+        $(this).parent().find(".fa-caret-up").removeClass("fa-caret-up").addClass("fa-caret-down");
+    });
 }
 
 function productDetails_before_load() {

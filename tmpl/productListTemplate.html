@@ -1,56 +1,66 @@
+<script id="productItemTemplate" type="text/x-jquery-tmpl">
+    <div class="col-sm-6 col-md-3 col-lg-3">
+        <div class="shop-item">
+        <a href="index.html#productDetails?id=${id}">
+            <div class="shop-item-image"><img src="${main_image_url}" alt="${title}"/>
+            </div>
+            <h4 class="shop-item-title font-alt"><a href="#productDetails?id=${id}">${title}</a></h4>£${price}
+        </a>
+        </div>
+    </div>
+</script>
+
 <script id="sectionTemplate" type="text/x-jquery-tmpl">
     <div class="main">
     <section class="module-small">
       <div class="container">
-        <form class="row">
-          <div class="col-sm-4 mb-sm-20">
-            <select class="form-control">
-              <option selected="selected">Default Sorting</option>
-              <option>Popular</option>
-              <option>Latest</option>
-              <option>Average Price</option>
-              <option>High Price</option>
-              <option>Low Price</option>
-            </select>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="input-group">
+              <input type="text" id="product-search-input" class="form-control" placeholder="Search for products...">
+              <span class="input-group-btn">
+                <button class="btn btn-b" type="button" data-toggle="collapse" data-target="#advanced-filters" aria-expanded="false" aria-controls="advanced-filters">
+                  Filters <i class="fa fa-caret-down"></i>
+                </button>
+              </span>
+            </div>
           </div>
-          <div class="col-sm-2 mb-sm-20">
-            <select class="form-control">
-              <option selected="selected">Woman</option>
-              <option>Man</option>
-            </select>
+        </div>
+        <div class="row collapse" id="advanced-filters" style="margin-top: 20px;">
+          <div class="col-sm-12">
+            <div class="panel-group" id="filters-accordion" role="tablist" aria-multiselectable="true">
+              {{each(key, group) filters}}
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading_${key}">
+                  <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#filters-accordion" href="#collapse_${key}" aria-expanded="false" aria-controls="collapse_${key}" class="collapsed">
+                      ${key.charAt(0).toUpperCase() + key.slice(1)}
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapse_${key}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_${key}">
+                  <div class="panel-body">
+                    {{each(i, value) group.values}}
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" class="product-filter-checkbox" data-key="${key}" value="${value}"> ${value}
+                      </label>
+                    </div>
+                    {{/each}}
+                  </div>
+                </div>
+              </div>
+              {{/each}}
+            </div>
           </div>
-          <div class="col-sm-3 mb-sm-20">
-            <select class="form-control">
-              <option selected="selected">All</option>
-              <option>Coats</option>
-              <option>Jackets</option>
-              <option>Dresses</option>
-              <option>Jumpsuits</option>
-              <option>Tops</option>
-              <option>Trousers</option>
-            </select>
-          </div>
-          <div class="col-sm-3">
-            <button class="btn btn-block btn-round btn-g" type="submit">Apply</button>
-          </div>
-        </form>
+        </div>
       </div>
     </section>
     <hr class="divider-w">
     <section class="module-small">
       <div class="container">
         <div class="row multi-columns-row">
-            {{each(i, product) products}}
-            <div class="col-sm-6 col-md-3 col-lg-3">
-                <div class="shop-item">
-                <a href="index.html#productDetails?id=${product.id}">
-                    <div class="shop-item-image"><img src="${product.main_image_url}" alt="${product.title}"/>
-                    </div>
-                    <h4 class="shop-item-title font-alt"><a href="#productDetails?id=${product.id}">${product.title}</a></h4>£${product.price}
-                </a>
-                </div>
-            </div>
-            {{/each}}
+            {{tmpl(products) "#productItemTemplate"}}
         </div>
         <div class="row">
           <div class="col-sm-12">
