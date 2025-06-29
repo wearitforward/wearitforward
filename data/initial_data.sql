@@ -5,7 +5,7 @@
 -- Insert a sample product based on the 'Accessories Pack'
 INSERT INTO products (title, description, price, currency, images, main_image_url, categories, avg_rating, review_count, details)
 VALUES (
-    'Accessories Pack',
+    'Accessories Packs',
     'The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.',
     20.00,
     'GBP',
