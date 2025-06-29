@@ -163,6 +163,7 @@ function productList__after_load() {
     });
 
     $('body').off('click', '#clear-all-filters').on('click', '#clear-all-filters', function() {
+        console.log('Clear all filters clicked');
         $('.product-filter-checkbox:checked').prop('checked', false);
         applyFilters();
     });
