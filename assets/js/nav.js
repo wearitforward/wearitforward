@@ -65,16 +65,25 @@ for (var key in navDataMap) {
 function addToCart(item) {
     console.log('Adding item to cart:', item);
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.push(item);
+    const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
+
+    if (existingItemIndex > -1) {
+        cart[existingItemIndex].quantity += item.quantity;
+    } else {
+        cart.push(item);
+    }
+
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartIcon();
 }
 
 function updateCartIcon() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    if (cart.length > 0) {
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    if (totalItems > 0) {
         $('.cart-icon').show();
-        $('#cart-count').text('('+cart.length + ') ');
+        $('#cart-count').text('(' + totalItems + ') ');
     } else {
         $('.cart-icon').hide();
     }
