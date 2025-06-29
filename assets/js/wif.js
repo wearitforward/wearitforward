@@ -85,7 +85,9 @@ function productList_before_load() {
 }
 
 function productList_after_load() {
-    console.log('productList__after_load called');
+    let currentPage = 1;
+    const productsPerPage = 8;
+    let currentFilteredProducts = [];
 
     function renderFilterPills() {
         var pillsContainer = $('#filter-pills-container');
@@ -100,11 +102,45 @@ function productList_after_load() {
         });
     }
 
+    function renderPagination() {
+        const paginationContainer = $('.pagination');
+        paginationContainer.empty();
+        const pageCount = Math.ceil(currentFilteredProducts.length / productsPerPage);
+
+        if (pageCount <= 1) {
+            return;
+        }
+
+        const prevPage = currentPage > 1 ? currentPage - 1 : 1;
+        paginationContainer.append(`<a href="#" class="page-link" data-page="${prevPage}"><i class="fa fa-angle-left"></i></a>`);
+
+        for (let i = 1; i <= pageCount; i++) {
+            const activeClass = (i === currentPage) ? 'active' : '';
+            paginationContainer.append(`<a href="#" class="page-link ${activeClass}" data-page="${i}">${i}</a>`);
+        }
+
+        const nextPage = currentPage < pageCount ? currentPage + 1 : pageCount;
+        paginationContainer.append(`<a href="#" class="page-link" data-page="${nextPage}"><i class="fa fa-angle-right"></i></a>`);
+    }
+
+    function renderProducts() {
+        const start = (currentPage - 1) * productsPerPage;
+        const end = start + productsPerPage;
+        const paginatedProducts = currentFilteredProducts.slice(start, end);
+
+        var productListContainer = $('.multi-columns-row');
+        productListContainer.empty();
+
+        if (paginatedProducts.length > 0) {
+            $("#productItemTemplate").tmpl(paginatedProducts).appendTo(productListContainer);
+        } else {
+             productListContainer.html('<div class="col-sm-12"><p>No products match your criteria.</p></div>');
+        }
+    }
+
     function applyFilters() {
-        // Get search term
         var searchTerm = $('#product-search-input').val().toLowerCase();
 
-        // Get selected filters
         var selectedFilters = {};
         $('.product-filter-checkbox:checked').each(function() {
             var key = $(this).data('key');
@@ -115,16 +151,13 @@ function productList_after_load() {
             selectedFilters[key].push(value);
         });
 
-        // Filter products
-        var filteredProducts = window.allProducts.filter(function(product) {
-            // Text search
+        currentFilteredProducts = window.allProducts.filter(function(product) {
             var textMatch = true;
             if (searchTerm) {
                 textMatch = (product.title.toLowerCase().indexOf(searchTerm) > -1) ||
                             (product.description.toLowerCase().indexOf(searchTerm) > -1);
             }
 
-            // Attribute filter
             var attributeMatch = true;
             for (var key in selectedFilters) {
                 if (!product.attributes[key]) {
@@ -140,46 +173,52 @@ function productList_after_load() {
                     break;
                 }
             }
-            
             return textMatch && attributeMatch;
         });
 
-        // Re-render product list
-        var productListContainer = $('.multi-columns-row');
-        productListContainer.empty();
-        
-        if (filteredProducts.length > 0) {
-            $("#productItemTemplate").tmpl(filteredProducts).appendTo(productListContainer);
-        } else {
-             productListContainer.html('<div class="col-sm-12"><p>No products match your criteria.</p></div>');
-        }
+        renderProducts();
+        renderPagination();
         renderFilterPills();
     }
 
-    $('#product-search-input').off('keyup').on('keyup', applyFilters);
-    $('body').off('change', '.product-filter-checkbox').on('change', '.product-filter-checkbox', applyFilters);
+    $('#product-search-input').off('keyup').on('keyup', function() {
+        currentPage = 1;
+        applyFilters();
+    });
+
+    $('body').off('change', '.product-filter-checkbox').on('change', '.product-filter-checkbox', function() {
+        currentPage = 1;
+        applyFilters();
+    });
+
     $('body').off('click', '.remove-pill').on('click', '.remove-pill', function() {
         var key = $(this).data('key');
         var value = $(this).data('value');
-        $('.product-filter-checkbox[data-key="' + key + '"][value="' + value + '"]').prop('checked', false).trigger('change');
-    });
-
-    // Use delegated event listener on the modal to ensure it's attached correctly.
-    $('#filter-modal').off('click', '#clear-all-filters').on('click', '#clear-all-filters', function() {
-        $('.product-filter-checkbox:checked').prop('checked', false);
+        $('.product-filter-checkbox[data-key="' + key + '"][value="' + value + '"]').prop('checked', false);
+        currentPage = 1;
         applyFilters();
     });
-    console.log("too soon");
 
-    // For the accordion to work
+    $('#filter-modal').off('click', '#clear-all-filters').on('click', '#clear-all-filters', function() {
+        $('.product-filter-checkbox:checked').prop('checked', false);
+        currentPage = 1;
+        applyFilters();
+    });
+
+    $('body').off('click', '.page-link').on('click', '.page-link', function(e) {
+        e.preventDefault();
+        currentPage = parseInt($(this).data('page'));
+        applyFilters();
+    });
+
     $('.collapse').off('shown.bs.collapse hidden.bs.collapse').on('shown.bs.collapse', function () {
         $(this).parent().find(".fa-angle-down").removeClass("fa-angle-down").addClass("fa-angle-up");
     }).on('hidden.bs.collapse', function () {
         $(this).parent().find(".fa-angle-up").removeClass("fa-angle-up").addClass("fa-angle-down");
     });
     
-    // Initial render of pills
-    renderFilterPills();
+    // Initial call
+    applyFilters();
 }
 
 function productDetails_before_load() {
