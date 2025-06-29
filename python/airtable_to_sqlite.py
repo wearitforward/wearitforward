@@ -107,6 +107,7 @@ def populate_products(conn, cursor, inventory_items):
 
         description = fields.get('Description', '')
         price = fields.get('Price', 0.0)
+        quantity = fields.get('Quantity', 0)
         
         airtable_images = fields.get('Images', [])
         local_image_paths = []
@@ -124,9 +125,9 @@ def populate_products(conn, cursor, inventory_items):
         currency = 'USD'
         
         cursor.execute("""
-            INSERT INTO products (title, description, price, currency, images, main_image_url)
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (title, description, price, currency, images_json, main_image_path))
+            INSERT INTO products (title, description, price, quantity, currency, images, main_image_url)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (title, description, price, quantity, currency, images_json, main_image_path))
         
         sqlite_id = cursor.lastrowid
         airtable_id_to_sqlite_id[item['id']] = sqlite_id

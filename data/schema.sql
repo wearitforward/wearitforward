@@ -13,6 +13,7 @@ CREATE TABLE products (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     price NUMERIC NOT NULL,
+    quantity INTEGER NOT NULL DEFAULT 0,
     -- ISO 4217 currency code, e.g., 'GBP'
     currency VARCHAR(3) NOT NULL DEFAULT 'GBP',
     -- JSON array of image URLs, e.g., '[".../product-7.jpg", ".../product-8.jpg"]'
