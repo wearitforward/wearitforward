@@ -89,6 +89,18 @@ function updateCartIcon() {
     }
 }
 
+function removeFromCart(productId) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart = cart.filter(item => item.id !== productId);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartIcon();
+}
+
+function updateCart(newCart) {
+    localStorage.setItem('cart', JSON.stringify(newCart));
+    updateCartIcon();
+}
+
 $(window).on('hashchange', function () {
     console.log('hashchange');
     loadBodyContent();

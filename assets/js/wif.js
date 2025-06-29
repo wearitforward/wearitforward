@@ -307,5 +307,36 @@ function cart_before_load() {
 }
 
 function cart_after_load() {
-    // Logic for updating quantities and removing items will go here.
+    // Handle removing an item from the cart
+    $('body').off('click', '.remove-from-cart').on('click', '.remove-from-cart', function(e) {
+        e.preventDefault();
+        const productId = parseInt($(this).data('id'), 10);
+        removeFromCart(productId);
+        loadBodyContent(); // Reload cart view to reflect removal and new total
+    });
+
+    // Handle updating cart quantities
+    $('body').off('click', '#update-cart').on('click', '#update-cart', function(e) {
+        e.preventDefault();
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let cartUpdated = false;
+
+        // Find all quantity inputs and update the cart array
+        $('tbody input[type="number"]').each(function() {
+            const productId = parseInt($(this).data('id'), 10);
+            const newQuantity = parseInt($(this).val(), 10);
+
+            const itemInCart = cart.find(item => item.id === productId);
+
+            if (itemInCart && newQuantity > 0 && itemInCart.quantity !== newQuantity) {
+                itemInCart.quantity = newQuantity;
+                cartUpdated = true;
+            }
+        });
+
+        if (cartUpdated) {
+            updateCart(cart);
+            loadBodyContent(); // Reload cart view to reflect new quantities and total
+        }
+    });
 }
