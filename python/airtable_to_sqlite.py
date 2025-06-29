@@ -3,10 +3,12 @@ import requests
 import json
 import sqlite3
 from dotenv import load_dotenv
+from urllib.parse import urlparse
 
 # --- Configuration (paths are relative to project root) ---
 DB_PATH = "data/wif.db.sqlite"
 SCHEMA_PATH = "data/schema.sql"
+IMAGES_DIR = "assets/images/shop"
 
 # From data/airtable_schema.json
 INVENTORY_ITEMS_TABLE_ID = "tblVKOTcBAJTYpBau"
@@ -40,6 +42,32 @@ def fetch_all_airtable_records(base_id, pat, table_id):
     print(f"Fetched {len(records)} records.")
     return records
 
+def download_image_if_not_exists(url, target_dir):
+    """Downloads an image from a URL to a target directory if it doesn't exist, and returns the web-accessible path."""
+    try:
+        # Sanitize filename from URL
+        filename = os.path.basename(urlparse(url).path)
+        local_path = os.path.join(target_dir, filename)
+        
+        # The web path should always use forward slashes.
+        web_path = os.path.join(IMAGES_DIR, filename).replace(os.path.sep, '/')
+
+        if not os.path.exists(local_path):
+            print(f"Downloading: {filename}")
+            response = requests.get(url, stream=True)
+            response.raise_for_status()
+            with open(local_path, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    f.write(chunk)
+        
+        return web_path
+    except requests.exceptions.RequestException as e:
+        print(f"Error downloading {url}: {e}")
+        return None
+    except Exception as e:
+        print(f"An error occurred processing {url}: {e}")
+        return None
+
 def setup_database():
     """Sets up the SQLite database by deleting the old one and applying the schema."""
     if os.path.exists(DB_PATH):
@@ -66,6 +94,9 @@ def populate_products(conn, cursor, inventory_items):
     """Populates the products table from Airtable 'Inventory Items' records."""
     print("Populating 'products' table...")
     airtable_id_to_sqlite_id = {}
+
+    # Ensure the target directory for images exists
+    os.makedirs(IMAGES_DIR, exist_ok=True)
     
     for item in inventory_items:
         fields = item.get('fields', {})
@@ -77,10 +108,17 @@ def populate_products(conn, cursor, inventory_items):
         description = fields.get('Description', '')
         price = fields.get('Price', 0.0)
         
-        images_list = fields.get('Images', [])
-        image_urls = [img['url'] for img in images_list if 'url' in img]
-        main_image = image_urls[0] if image_urls else None
-        images_json = json.dumps(image_urls)
+        airtable_images = fields.get('Images', [])
+        local_image_paths = []
+        if airtable_images:
+            for img in airtable_images:
+                if 'url' in img:
+                    local_path = download_image_if_not_exists(img['url'], IMAGES_DIR)
+                    if local_path:
+                        local_image_paths.append(local_path)
+
+        main_image_path = local_image_paths[0] if local_image_paths else None
+        images_json = json.dumps(local_image_paths)
         
         # Assuming USD from Airtable's '$' symbol, as seen in schema.json
         currency = 'USD'
@@ -88,7 +126,7 @@ def populate_products(conn, cursor, inventory_items):
         cursor.execute("""
             INSERT INTO products (title, description, price, currency, images, main_image_url)
             VALUES (?, ?, ?, ?, ?, ?)
-        """, (title, description, price, currency, images_json, main_image))
+        """, (title, description, price, currency, images_json, main_image_path))
         
         sqlite_id = cursor.lastrowid
         airtable_id_to_sqlite_id[item['id']] = sqlite_id
@@ -168,7 +206,7 @@ def main():
     base_id = os.getenv("AIRTABLE_BASE_ID")
     
     if not pat or not base_id:
-        print(f"Error: AIRTABLE_PAT and AIRTABLE_BASE_ID must be set in {DOTENV_PATH}")
+        print(f"Error: AIRTABLE_PAT and AIRTABLE_BASE_ID must be set in your .env file.")
         return
 
     # 1. Setup Database
