@@ -5,3 +5,5 @@ assets/scss/**
 *.sqlite
 .aider*
 **/data.db
+.env
+data/airtable_schema.json
