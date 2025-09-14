@@ -1,0 +1,217 @@
+<script id="sectionTemplate" type="text/x-jquery-tmpl">
+    <div class="main">
+        <!-- Header Section -->
+        <section class="module" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0;">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-8 col-sm-offset-2 text-center">
+                <h1 class="module-title font-alt" style="font-size: 3em; margin-bottom: 20px; color: white;">Checkout</h1>
+                <p class="module-subtitle font-serif" style="font-size: 1.4em; line-height: 1.6; color: #f8f9fa;">
+                  Complete your order and we'll contact you for pickup and payment
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Checkout Content -->
+        <section class="module" style="padding: 60px 0;">
+            <div class="container">
+                <!-- Order Summary -->
+                <div class="row" style="margin-bottom: 50px;">
+                    <div class="col-sm-12">
+                        <h3 class="font-alt" style="color: #2c3e50; margin-bottom: 30px;">Order Summary</h3>
+                        <div class="table-responsive">
+                            <table class="table table-striped" style="background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                                <thead style="background-color: #f8f9fa;">
+                                    <tr>
+                                        <th style="padding: 15px;">Product</th>
+                                        <th style="padding: 15px;">Price</th>
+                                        <th style="padding: 15px;">Quantity</th>
+                                        <th style="padding: 15px;">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="checkout-items">
+                                    {{each(i, item) items}}
+                                    <tr>
+                                        <td style="padding: 15px;">
+                                            <div style="display: flex; align-items: center;">
+                                                <img src="${item.image}" alt="${item.title}" width="40" style="margin-right: 15px; border-radius: 5px;"/>
+                                                <span style="font-weight: 500;">${item.title}</span>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 15px; color: #e74c3c; font-weight: 600;">$${item.price.toFixed(2)}</td>
+                                        <td style="padding: 15px;">${item.quantity}</td>
+                                        <td style="padding: 15px; color: #27ae60; font-weight: 600;">$${(item.price * item.quantity).toFixed(2)}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                                <tfoot style="background-color: #f8f9fa;">
+                                    <tr>
+                                        <td colspan="3" style="padding: 20px; font-weight: 600; font-size: 1.1em;">Total:</td>
+                                        <td style="padding: 20px; font-weight: 700; font-size: 1.2em; color: #e74c3c;">$${total.toFixed(2)}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Checkout Process Info -->
+                <div class="row" style="margin-bottom: 40px;">
+                    <div class="col-sm-12">
+                        <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 30px; border-radius: 15px; text-align: center;">
+                            <i class="fa fa-info-circle" style="font-size: 2.5em; margin-bottom: 15px;"></i>
+                            <h4 style="color: white; margin-bottom: 15px;">How Our Checkout Works</h4>
+                            <p style="color: #ecf0f1; font-size: 1.2em; margin: 0; line-height: 1.6;">
+                                After you submit this form, we'll send you an email confirmation and contact you to arrange pickup and payment.
+                                You can pay when we collect the items from your preferred location.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Information Form -->
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <h3 class="font-alt" style="color: #2c3e50; margin-bottom: 30px; text-align: center;">Your Information</h3>
+                        <form id="checkout-form" style="background-color: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                            <div class="row">
+                                <div class="col-sm-12" style="margin-bottom: 25px;">
+                                    <label for="customer-name" style="font-weight: 600; color: #2c3e50; margin-bottom: 8px; display: block;">Full Name *</label>
+                                    <input type="text" id="customer-name" name="name" class="form-control" required
+                                           style="padding: 15px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1.1em;"
+                                           placeholder="Enter your full name">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6" style="margin-bottom: 25px;">
+                                    <label for="customer-email" style="font-weight: 600; color: #2c3e50; margin-bottom: 8px; display: block;">Email Address *</label>
+                                    <input type="email" id="customer-email" name="email" class="form-control" required
+                                           style="padding: 15px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1.1em;"
+                                           placeholder="your.email@example.com">
+                                </div>
+                                <div class="col-sm-6" style="margin-bottom: 25px;">
+                                    <label for="customer-phone" style="font-weight: 600; color: #2c3e50; margin-bottom: 8px; display: block;">Phone Number *</label>
+                                    <input type="tel" id="customer-phone" name="phone" class="form-control" required
+                                           style="padding: 15px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1.1em;"
+                                           placeholder="(555) 123-4567">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12" style="margin-bottom: 25px;">
+                                    <label for="customer-address" style="font-weight: 600; color: #2c3e50; margin-bottom: 8px; display: block;">Pickup Address *</label>
+                                    <textarea id="customer-address" name="address" class="form-control" rows="3" required
+                                              style="padding: 15px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1.1em; resize: vertical;"
+                                              placeholder="Enter your complete address where we should pick up payment and deliver items"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12" style="margin-bottom: 30px;">
+                                    <label for="special-instructions" style="font-weight: 600; color: #2c3e50; margin-bottom: 8px; display: block;">Special Instructions (Optional)</label>
+                                    <textarea id="special-instructions" name="instructions" class="form-control" rows="2"
+                                              style="padding: 15px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1.1em; resize: vertical;"
+                                              placeholder="Any special delivery instructions, preferred contact times, etc."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" id="place-order-btn" class="btn btn-lg"
+                                        style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border: none; border-radius: 50px; padding: 18px 50px; font-size: 1.3em; font-weight: 600; box-shadow: 0 6px 20px rgba(231, 76, 60, 0.3); transition: all 0.3s ease;">
+                                    <i class="fa fa-shopping-cart" style="margin-right: 10px;"></i>Place Order
+                                </button>
+                                <p style="color: #7f8c8d; margin-top: 20px; font-size: 1em;">
+                                    By placing this order, you agree to our pickup and payment process
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Back to Cart -->
+                <div class="row" style="margin-top: 40px;">
+                    <div class="col-sm-12 text-center">
+                        <a href="#cart" class="btn btn-outline" style="border: 2px solid #6c757d; color: #6c757d; padding: 12px 30px; border-radius: 25px; text-decoration: none; transition: all 0.3s ease;">
+                            <i class="fa fa-arrow-left" style="margin-right: 8px;"></i>Back to Cart
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Custom Email Modal -->
+        <div id="email-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 99999; overflow-y: auto;">
+            <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px;">
+                <div style="background: white; border-radius: 15px; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                    <!-- Header -->
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px 15px 0 0; padding: 25px; position: relative;">
+                        <h4 style="margin: 0; font-weight: 600;">
+                            <i class="fa fa-envelope" style="margin-right: 10px;"></i>Send Your Order via Email
+                        </h4>
+                        <button type="button" id="close-modal" style="position: absolute; right: 20px; top: 20px; background: none; border: none; color: white; font-size: 1.5em; cursor: pointer; opacity: 0.8; padding: 5px; line-height: 1;">
+                            &times;
+                        </button>
+                    </div>
+
+                    <!-- Body -->
+                    <div style="padding: 30px;">
+                        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
+                            <h5 style="color: #2c3e50; margin-bottom: 15px;">
+                                <i class="fa fa-info-circle" style="color: #3498db; margin-right: 8px;"></i>How to Complete Your Order
+                            </h5>
+                            <p style="color: #6c757d; margin-bottom: 10px; line-height: 1.6;">
+                                Please use your device's email client to send the following email to complete your order:
+                            </p>
+                            <ol style="color: #6c757d; margin: 0; line-height: 1.6;">
+                                <li>Copy the email content below</li>
+                                <li>Open your email client (Gmail, Outlook, etc.)</li>
+                                <li>Paste the content and send to <strong style="color: #e74c3c;">wearitforward.org@gmail.com</strong></li>
+                            </ol>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="font-weight: 600; color: #2c3e50; margin-bottom: 8px; display: block;">Email Subject:</label>
+                            <div style="background-color: #f8f9fa; border: 2px solid #e9ecef; border-radius: 8px; padding: 12px; position: relative;">
+                                <span id="email-subject" style="font-family: monospace; color: #2c3e50; word-break: break-all;"></span>
+                                <button type="button" class="copy-btn" data-target="email-subject"
+                                        style="position: absolute; right: 8px; top: 8px; background-color: #3498db; color: white; border: none; border-radius: 4px; padding: 5px 10px; font-size: 0.8em; cursor: pointer;">
+                                    <i class="fa fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 25px;">
+                            <label style="font-weight: 600; color: #2c3e50; margin-bottom: 8px; display: block;">Email Body:</label>
+                            <div style="background-color: #f8f9fa; border: 2px solid #e9ecef; border-radius: 8px; padding: 15px; position: relative; max-height: 400px; overflow-y: auto;">
+                                <pre id="email-body" style="margin: 0; font-family: monospace; font-size: 0.9em; line-height: 1.5; color: #2c3e50; white-space: pre-wrap; word-wrap: break-word;"></pre>
+                                <button type="button" class="copy-btn" data-target="email-body"
+                                        style="position: absolute; right: 8px; top: 8px; background-color: #3498db; color: white; border: none; border-radius: 4px; padding: 5px 10px; font-size: 0.8em; cursor: pointer;">
+                                    <i class="fa fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <div style="background-color: #e8f5e8; padding: 15px; border-radius: 8px; border-left: 4px solid #27ae60;">
+                            <p style="margin: 0; color: #27ae60; font-weight: 600;">
+                                <i class="fa fa-check-circle" style="margin-right: 8px;"></i>
+                                After sending the email, we'll contact you within 24 hours to arrange pickup and payment!
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div style="border-top: 1px solid #e9ecef; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center;">
+                        <button type="button" id="close-modal-btn"
+                                style="background-color: #6c757d; color: white; border: none; border-radius: 25px; padding: 10px 25px; cursor: pointer;">
+                            Close
+                        </button>
+                        <a id="mailto-link" href="#"
+                           style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border: none; border-radius: 25px; padding: 10px 25px; text-decoration: none; display: inline-block;">
+                            <i class="fa fa-envelope" style="margin-right: 8px;"></i>Open Email Client
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

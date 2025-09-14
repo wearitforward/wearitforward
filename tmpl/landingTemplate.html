@@ -1,57 +1,297 @@
 <script id="sectionTemplate" type="text/x-jquery-tmpl">
 
   <div class="main">
-    <section class="module-medium" id="about">
+    <!-- Hero Section -->
+    <section class="module-large" id="hero" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 100px 0;">
       <div class="container">
         <div class="row">
-          <div class="col-sm-8 col-sm-offset-2">
-            <h2 class="module-title font-alt">Welcome to Titan</h2>
-            <div class="module-subtitle font-serif large-text">We’re an award winning London based digital agency, lovingly curating pixels for maximum impact. We don’t have a style — we have standards.
-              <div class="text-center">
-                <div class="btn-group mt-30"><a class="btn btn-border-d btn-circle" href="#"><i class="fa fa-android"></i> Play Store</a><a class="btn btn-border-d btn-circle" href="#"><i class="fa fa-apple"></i> App Store</a><a class="btn btn-border-d btn-circle" href="#"><i class="fa fa-windows"></i> Windows</a></div>
+          <div class="col-sm-10 col-sm-offset-1 text-center">
+            <h1 class="module-title font-alt" style="font-size: 4em; margin-bottom: 25px; color: white; font-weight: 300; letter-spacing: 2px;">Wear It Forward</h1>
+            <h2 class="module-subtitle font-serif large-text" style="font-size: 1.8em; line-height: 1.7; margin-bottom: 35px; color: #f8f9fa; max-width: 800px; margin-left: auto; margin-right: auto;">
+              Transforming gently used Indian clothing, jewelry, and cultural items into hope for terminally ill children in India
+            </h2>
+            <p style="font-size: 1.5em; margin-bottom: 50px; color: #e9ecef; font-weight: 300;">
+              Every purchase brings comfort and care to a child who needs it most
+            </p>
+            <div class="text-center">
+              <div class="btn-group mt-30">
+                <a class="btn btn-lg" href="index.html#productList" style="margin-right: 20px; padding: 18px 40px; background-color: #e74c3c; color: white; border: none; border-radius: 50px; font-size: 1.1em; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);">
+                  <i class="fa fa-shopping-bag"></i> Shop Now
+                </a>
+                <a class="btn btn-lg" href="index.html#donate" style="padding: 18px 40px; background-color: transparent; color: white; border: 2px solid white; border-radius: 50px; font-size: 1.1em; text-decoration: none; transition: all 0.3s ease;">
+                  <i class="fa fa-heart"></i> Donate Clothes
+                </a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <section class="module pb-0 bg-dark landing-reason parallax-bg" data-background="assets/images/landing/why_choose_bg.png">
+
+    <!-- Riya's Story Section -->
+    <section class="module" id="story" style="padding: 100px 0; background-color: #f8f9fa;">
+      <div class="container">
+        <div class="row" style="align-items: center;">
+          <div class="col-sm-6" style="padding-right: 50px;">
+            <h2 class="module-title font-alt align-left" style="color: #e74c3c; margin-bottom: 30px; font-size: 2.5em;">Meet Riya</h2>
+            <p class="font-serif" style="font-size: 1.5em; margin-bottom: 25px; color: #2c3e50; line-height: 1.6;">
+              Hi! I'm Riya Nambiar, a 15-year-old high school student with a passion for helping others that began in third grade.
+            </p>
+            <p style="margin-bottom: 25px; line-height: 1.8; color: #34495e; font-size: 1.3em;">
+              What started with selling homemade dosa batter and teaching coding to younger students has evolved into something much bigger.
+              A few years ago, my friends and I had a simple idea: sell our gently used Indian clothes to raise funds for charity.
+            </p>
+            <p style="margin-bottom: 30px; line-height: 1.8; color: #34495e; font-size: 1.3em;">
+              The response from our community was amazing, and that's what inspired me to create this website—a platform where beautiful,
+              gently used Indian outfits can find new homes while supporting children who need our help most.
+            </p>
+            <blockquote style="border-left: 4px solid #e74c3c; padding-left: 20px; margin: 0; background-color: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+              <p style="color: #2c3e50; font-style: italic; margin-bottom: 10px; font-size: 1.3em;">
+                "This project means a lot to me, not just because it supports a great cause, but because it brings our community together in such a positive way."
+              </p>
+              <footer style="color: #7f8c8d; font-size: 1.1em;">— Riya Nambiar</footer>
+            </blockquote>
+          </div>
+          <div class="col-sm-6 text-center">
+            <div style="position: relative;">
+              <img src="assets/images/Riya.jpg" alt="Riya Nambiar - Founder of Wear It Forward" style="width: 100%; max-width: 400px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); transform: rotate(-2deg);">
+              <div style="position: absolute; top: -20px; right: -20px; background-color: #e74c3c; color: white; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2em; box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);">
+                <i class="fa fa-heart"></i>
+              </div>
+            </div>
+            <div style="margin-top: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+              <h4 style="color: white; margin-bottom: 15px; font-size: 1.3em;">From Passion to Purpose</h4>
+              <p style="color: #f8f9fa; margin: 0; font-size: 1.2em; line-height: 1.5;">
+                Started in 3rd grade • Youth-led fundraising • Community impact • Sustainable fashion
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="module" id="how-it-works" style="padding: 100px 0; background: linear-gradient(45deg, #f8f9fa 0%, #e9ecef 100%);">
       <div class="container">
         <div class="row">
-          <div class="col-sm-6"><img src="assets/images/landing/why_choose.png" alt=""></div>
-          <div class="col-sm-6">
-            <h2 class="module-title font-alt align-left">Why Titan is best</h2>
-            <p class="module-subtitle font-serif align-left">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><a class="btn btn-border-w btn-round video-pop-up" href="https://www.youtube.com/watch?v=TTxZj3DZiIM"><i class="icon-video"></i> Watch our video</a>
+          <div class="col-sm-12 text-center" style="margin-bottom: 70px;">
+            <h2 class="module-title font-alt" style="color: #2c3e50; font-size: 2.8em; margin-bottom: 20px;">How Wear It Forward Works</h2>
+            <p class="module-subtitle font-serif" style="font-size: 1.6em; color: #6c757d; max-width: 600px; margin: 0 auto;">
+              A simple yet powerful cycle of giving that transforms wardrobes into hope
+            </p>
           </div>
         </div>
+        <div class="row">
+          <div class="col-sm-4 text-center" style="margin-bottom: 50px;">
+            <div style="position: relative; margin-bottom: 30px;">
+              <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; width: 120px; height: 120px; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(52, 152, 219, 0.3); position: relative;">
+                <i class="fa fa-heart" style="font-size: 3em;"></i>
+                <div style="position: absolute; top: -10px; right: -10px; background-color: #e74c3c; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2em;">1</div>
+              </div>
+            </div>
+            <h3 style="color: #2c3e50; margin-bottom: 20px; font-size: 1.5em;">Community Donates</h3>
+            <p style="color: #6c757d; line-height: 1.7; font-size: 1.3em; padding: 0 10px;">
+              Families donate their gently used Indian clothing, jewelry, and cultural items—sarees, lehengas, kurtas, bangles, necklaces, and decorative pieces that deserve a second life.
+            </p>
+          </div>
+          <div class="col-sm-4 text-center" style="margin-bottom: 50px;">
+            <div style="position: relative; margin-bottom: 30px;">
+              <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; width: 120px; height: 120px; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(231, 76, 60, 0.3); position: relative;">
+                <i class="fa fa-shopping-bag" style="font-size: 3em;"></i>
+                <div style="position: absolute; top: -10px; right: -10px; background-color: #f39c12; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2em;">2</div>
+              </div>
+            </div>
+            <h3 style="color: #2c3e50; margin-bottom: 20px; font-size: 1.5em;">You Shop</h3>
+            <p style="color: #6c757d; line-height: 1.7; font-size: 1.3em; padding: 0 10px;">
+              Browse our carefully curated collection of beautiful Indian clothing, jewelry, and cultural items at very reasonable prices.
+            </p>
+          </div>
+          <div class="col-sm-4 text-center" style="margin-bottom: 50px;">
+            <div style="position: relative; margin-bottom: 30px;">
+              <div style="background: linear-gradient(135deg, #27ae60, #229954); color: white; width: 120px; height: 120px; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(39, 174, 96, 0.3); position: relative;">
+                <i class="fa fa-child" style="font-size: 3em;"></i>
+                <div style="position: absolute; top: -10px; right: -10px; background-color: #8e44ad; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2em;">3</div>
+              </div>
+            </div>
+            <h3 style="color: #2c3e50; margin-bottom: 20px; font-size: 1.5em;">Children Benefit</h3>
+            <p style="color: #6c757d; line-height: 1.7; font-size: 1.3em; padding: 0 10px;">
+              Every single dollar goes directly to <a href="https://www.solacecharities.org/" target="_blank" rel="noopener noreferrer" style="color: #e74c3c; text-decoration: none; font-weight: 600;">Solace</a>, supporting terminally ill children in India with vital care and comfort.
+            </p>
+          </div>
+        </div>
+        <!-- Connection arrows for larger screens -->
+        <style>
+          @media (min-width: 768px) {
+            #how-it-works .col-sm-4:nth-child(2):before {
+              content: '→';
+              position: absolute;
+              left: -30px;
+              top: 50%;
+              font-size: 2em;
+              color: #bdc3c7;
+              transform: translateY(-50%);
+            }
+            #how-it-works .col-sm-4:nth-child(3):before {
+              content: '→';
+              position: absolute;
+              left: -30px;
+              top: 50%;
+              font-size: 2em;
+              color: #bdc3c7;
+              transform: translateY(-50%);
+            }
+          }
+        </style>
       </div>
     </section>
-    <section>
+
+    <!-- Solace Organization Section -->
+    <section class="module" style="padding: 100px 0; background-color: white;">
       <div class="container">
-        <div class="row landing-image-text">
-          <div class="col-sm-6"><img class="center-block" src="assets/images/landing/iphone-mockup.png" alt=""></div>
-          <div class="col-sm-6">
-            <h2 class="font-alt">How it works</h2>
-            <p class="font-serif">Lorem ipsum dolor sitamet consectetur adipisicing elit ullamut consequatur repellendus amet nemo dignissimos possimus eius fugiat</p>
-            <ul>
-              <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</li>
-              <li>Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
-              <li>Duis aute irure dolor in reprehenderit in voluptate velit esse</li>
-              <li>Proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-            </ul><a class="btn btn-border-d btn-circle" href="#">Download App</a>
+        <div class="row">
+          <div class="col-sm-12 text-center" style="margin-bottom: 50px;">
+            <h2 class="module-title font-alt" style="color: #2c3e50; font-size: 2.8em; margin-bottom: 20px;">Our Partner: Solace</h2>
+            <p class="module-subtitle font-serif" style="font-size: 1.6em; color: #6c757d; max-width: 700px; margin: 0 auto;">
+              100% of proceeds from clothing, jewelry, and cultural items support terminally ill children through Solace's life-changing work in India
+            </p>
+          </div>
+        </div>
+        <div class="row" style="align-items: center;">
+          <div class="col-sm-6" style="margin-bottom: 40px;">
+            <div style="background: linear-gradient(135deg, #27ae60, #2ecc71); color: white; padding: 40px; border-radius: 15px; text-align: center; height: 100%;">
+              <i class="fa fa-hands-helping" style="font-size: 4em; margin-bottom: 25px; color: white;"></i>
+              <h3 style="color: white; margin-bottom: 20px; font-size: 1.6em;">About Solace</h3>
+              <p style="color: #f8f9fa; font-size: 1.2em; line-height: 1.6; margin-bottom: 25px;">
+                Solace is a non-profit organization dedicated to providing vital support, care, and comfort to children battling life-limiting illnesses in India.
+              </p>
+              <p style="color: #f8f9fa; font-size: 1.1em; line-height: 1.6; margin-bottom: 30px;">
+                Their compassionate work brings hope and healing to families during their most challenging times.
+              </p>
+              <a href="https://www.solacecharities.org/" target="_blank" rel="noopener noreferrer"
+                 style="background-color: white; color: #27ae60; padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.1em; transition: all 0.3s ease;">
+                <i class="fa fa-external-link" style="margin-right: 8px;"></i>Visit Solace Website
+              </a>
+            </div>
+          </div>
+          <div class="col-sm-6" style="margin-bottom: 40px;">
+            <div style="background-color: #f8f9fa; padding: 40px; border-radius: 15px; border-left: 5px solid #e74c3c;">
+              <h3 style="color: #2c3e50; margin-bottom: 25px; font-size: 1.5em;">
+                <i class="fa fa-heart" style="color: #e74c3c; margin-right: 10px;"></i>How Your Purchase Helps
+              </h3>
+              <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="margin-bottom: 15px; color: #2c3e50; font-size: 1.2em;">
+                  <i class="fa fa-check-circle" style="color: #27ae60; margin-right: 10px;"></i>
+                  <strong>Medical Care:</strong> Funding for treatments and medications
+                </li>
+                <li style="margin-bottom: 15px; color: #2c3e50; font-size: 1.2em;">
+                  <i class="fa fa-check-circle" style="color: #27ae60; margin-right: 10px;"></i>
+                  <strong>Comfort Items:</strong> Providing essential care packages
+                </li>
+                <li style="margin-bottom: 15px; color: #2c3e50; font-size: 1.2em;">
+                  <i class="fa fa-check-circle" style="color: #27ae60; margin-right: 10px;"></i>
+                  <strong>Family Support:</strong> Emotional and practical assistance
+                </li>
+                <li style="margin-bottom: 15px; color: #2c3e50; font-size: 1.2em;">
+                  <i class="fa fa-check-circle" style="color: #27ae60; margin-right: 10px;"></i>
+                  <strong>Educational Resources:</strong> Learning opportunities for families
+                </li>
+              </ul>
+              <div style="background-color: white; padding: 20px; border-radius: 10px; margin-top: 25px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <p style="margin: 0; color: #e74c3c; font-weight: 600; font-size: 1.3em;">
+                  Every dollar makes a difference in a child's life
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
-    <section class="module download pb-0">
+
+    <!-- Impact Section -->
+    <section class="module" style="background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white; padding: 100px 0;">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1 text-center">
+            <h2 class="module-title font-alt" style="color: white; margin-bottom: 30px; font-size: 2.8em;">Making a Real Difference</h2>
+            <p class="module-subtitle font-serif" style="font-size: 1.6em; margin-bottom: 50px; color: #ecf0f1; max-width: 700px; margin-left: auto; margin-right: auto;">
+              Through Wear It Forward, we bridge the gap between those who wish to declutter their wardrobes and <a href="https://www.solacecharities.org/" target="_blank" rel="noopener noreferrer" style="color: #1abc9c; text-decoration: none; font-weight: 600;">Solace's</a> life-changing work with children in need.
+            </p>
+            <div class="row" style="margin-top: 60px;">
+              <div class="col-sm-4">
+                <div style="background-color: rgba(255,255,255,0.1); padding: 40px 20px; border-radius: 15px; margin-bottom: 30px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+                  <i class="fa fa-recycle" style="font-size: 3.5em; color: #1abc9c; margin-bottom: 20px;"></i>
+                  <h4 style="color: white; margin-bottom: 15px; font-size: 1.4em;">Sustainability</h4>
+                  <p style="color: #ecf0f1; line-height: 1.6; font-size: 1.3em;">Giving beautiful garments a second life instead of letting them go to waste</p>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div style="background-color: rgba(255,255,255,0.1); padding: 40px 20px; border-radius: 15px; margin-bottom: 30px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+                  <i class="fa fa-users" style="font-size: 3.5em; color: #e74c3c; margin-bottom: 20px;"></i>
+                  <h4 style="color: white; margin-bottom: 15px; font-size: 1.4em;">Community</h4>
+                  <p style="color: #ecf0f1; line-height: 1.6; font-size: 1.3em;">Fostering a spirit of generosity and empathy within our community</p>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div style="background-color: rgba(255,255,255,0.1); padding: 40px 20px; border-radius: 15px; margin-bottom: 30px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+                  <i class="fa fa-heart" style="font-size: 3.5em; color: #f39c12; margin-bottom: 20px;"></i>
+                  <h4 style="color: white; margin-bottom: 15px; font-size: 1.4em;">Compassion</h4>
+                  <p style="color: #ecf0f1; line-height: 1.6; font-size: 1.3em;">Bringing comfort to children facing life's greatest challenges</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="module" id="get-involved" style="padding: 100px 0; background-color: #f8f9fa;">
       <div class="container text-center">
-        <h2 class="module-title font-alt">Why are you waiting for?</h2>
         <div class="row">
-          <div class="col-md-6 col-md-offset-3">
-            <p class="module-subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat.</p><a href="#"><img class="image-button" src="assets/images/landing/apple-store-icon.png"></a><a href="#"><img class="image-button" src="assets/images/landing/playstore-icon.png"></a><a href="#"><img class="image-button" src="assets/images/landing/windows-store-icon.png"></a>
+          <div class="col-md-10 col-md-offset-1">
+            <h2 class="module-title font-alt" style="color: #2c3e50; margin-bottom: 30px; font-size: 2.8em;">Join Our Mission</h2>
+            <p class="module-subtitle" style="font-size: 1.6em; margin-bottom: 60px; color: #6c757d; max-width: 700px; margin-left: auto; margin-right: auto;">
+              Whether you're buying an outfit, donating clothes, or simply spreading the word—you're supporting <a href="https://www.solacecharities.org/" target="_blank" rel="noopener noreferrer" style="color: #e74c3c; text-decoration: none; font-weight: 600;">Solace's mission</a> and making a difference.
+            </p>
+            <div class="row" style="margin-bottom: 60px;">
+              <div class="col-sm-6" style="margin-bottom: 40px;">
+                <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 50px 30px; border-radius: 20px; height: 280px; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 15px 35px rgba(231, 76, 60, 0.2); position: relative; overflow: hidden;">
+                  <div style="position: absolute; top: -50px; right: -50px; width: 100px; height: 100px; background-color: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                  <i class="fa fa-shopping-bag" style="font-size: 3.5em; margin-bottom: 25px; color: white;"></i>
+                  <h4 style="color: white; margin-bottom: 20px; font-size: 1.6em;">Shop With Purpose</h4>
+                  <p style="color: #f8f9fa; margin-bottom: 30px; font-size: 1.3em; line-height: 1.5;">Find beautiful Indian clothing, jewelry, and cultural items while supporting children in need</p>
+                  <a class="btn btn-lg" href="index.html#productList" style="background-color: white; color: #e74c3c; border: none; border-radius: 50px; padding: 15px 30px; font-weight: bold; text-decoration: none; font-size: 1.1em;">Browse Collection</a>
+                </div>
+              </div>
+              <div class="col-sm-6" style="margin-bottom: 40px;">
+                <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 50px 30px; border-radius: 20px; height: 280px; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 15px 35px rgba(52, 152, 219, 0.2); position: relative; overflow: hidden;">
+                  <div style="position: absolute; top: -50px; right: -50px; width: 100px; height: 100px; background-color: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                  <i class="fa fa-heart" style="font-size: 3.5em; margin-bottom: 25px; color: white;"></i>
+                  <h4 style="color: white; margin-bottom: 20px; font-size: 1.6em;">Donate Items</h4>
+                  <p style="color: #f8f9fa; margin-bottom: 30px; font-size: 1.3em; line-height: 1.5;">Give your gently used Indian clothing, jewelry, and cultural items a chance to help</p>
+                  <a class="btn btn-lg" href="index.html#donate" style="background-color: white; color: #3498db; border: none; border-radius: 50px; padding: 15px 30px; font-weight: bold; text-decoration: none; font-size: 1.1em;">Start Donating</a>
+                </div>
+              </div>
+            </div>
+            <div style="background-color: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto;">
+              <blockquote style="border: none; margin: 0; padding: 0;">
+                <p style="color: #2c3e50; font-size: 1.5em; font-style: italic; margin-bottom: 20px; line-height: 1.6;">
+                  "Thank you for visiting and supporting something truly meaningful. Together, we're wearing it forward and making a lasting impact."
+                </p>
+                <footer style="color: #7f8c8d; font-size: 1.2em;">— Riya Nambiar, Founder</footer>
+              </blockquote>
+              <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ecf0f1;">
+                <p style="color: #6c757d; margin-bottom: 10px; font-size: 1.3em;">
+                  <strong>Ready to get involved?</strong>
+                </p>
+                <p style="color: #95a5a6; font-size: 1.2em;">
+                  <i class="fa fa-envelope" style="margin-right: 8px; color: #e74c3c;"></i>
+                  <strong>Contact:</strong> wearitforward.org@gmail.com
+                </p>
+              </div>
+            </div>
           </div>
-        </div><img src="assets/images/landing/landscap-mockup.jpg">
+        </div>
       </div>
     </section>
   </div>

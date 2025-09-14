@@ -1,5 +1,88 @@
 window.allProducts = [];
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////// Database Management ////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+// Global database refresh handler
+window.onDatabaseRefresh = function() {
+    console.log('Database refreshed, updating product data...');
+
+    // Show refresh indicator
+    showDatabaseRefreshIndicator();
+
+    // Reload products if we're on product-related pages
+    if (window.getFragment) {
+        const currentFragment = window.getFragment();
+        if (currentFragment === 'productList') {
+            // Reload product list
+            productList_before_load().then(() => {
+                // Re-render the template with fresh data
+                const templateData = productList_before_load();
+                if (templateData && typeof templateData.then === 'function') {
+                    templateData.then(function(resolvedData) {
+                        $("#t-body").empty();
+                        $("#sectionTemplate").tmpl(resolvedData || {}).appendTo("#t-body");
+                        productList_after_load();
+                    });
+                }
+            });
+        }
+    }
+
+    // Hide refresh indicator after a short delay
+    setTimeout(hideDatabaseRefreshIndicator, 2000);
+};
+
+function showDatabaseRefreshIndicator() {
+    $('#db-refresh-indicator').show();
+}
+
+function hideDatabaseRefreshIndicator() {
+    $('#db-refresh-indicator').hide();
+}
+
+function manualDatabaseRefresh() {
+    console.log('Manual database refresh triggered by user');
+    showDatabaseRefreshIndicator();
+
+    if (window.refreshDatabase) {
+        window.refreshDatabase().then(() => {
+            console.log('Manual refresh completed');
+            setTimeout(hideDatabaseRefreshIndicator, 2000);
+        }).catch((error) => {
+            console.error('Manual refresh failed:', error);
+            setTimeout(hideDatabaseRefreshIndicator, 1000);
+        });
+    } else {
+        console.warn('Database refresh function not available');
+        setTimeout(hideDatabaseRefreshIndicator, 1000);
+    }
+}
+
+// Make manual refresh globally available
+window.manualDatabaseRefresh = manualDatabaseRefresh;
+
+// Check database freshness on page visibility
+document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) {
+        // Page became visible, check if we need to refresh
+        console.log('Page became visible, checking database freshness...');
+        if (window.refreshDatabase && typeof window.shouldRefreshDatabase === 'function') {
+            // This will be available once db.js loads
+            setTimeout(() => {
+                if (window.shouldRefreshDatabase && window.shouldRefreshDatabase()) {
+                    console.log('Database is stale, refreshing...');
+                    showDatabaseRefreshIndicator();
+                    window.refreshDatabase().then(() => {
+                        setTimeout(hideDatabaseRefreshIndicator, 2000);
+                    });
+                }
+            }, 1000);
+        }
+    }
+});
+
 function getParamsFromHash(hash) {
     var params = {};
     var queryString = hash.split('?')[1];
@@ -339,4 +422,203 @@ function cart_after_load() {
             loadBodyContent(); // Reload cart view to reflect new quantities and total
         }
     });
+}
+
+function checkout_before_load() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let total = 0;
+
+    cart.forEach(item => {
+        total += item.price * item.quantity;
+    });
+
+    return { items: cart, total: total };
+}
+
+function checkout_after_load() {
+    // Handle form submission
+    $('body').off('submit', '#checkout-form').on('submit', '#checkout-form', function(e) {
+        e.preventDefault();
+
+        // Get form data
+        const name = $('#customer-name').val().trim();
+        const email = $('#customer-email').val().trim();
+        const phone = $('#customer-phone').val().trim();
+        const address = $('#customer-address').val().trim();
+        const instructions = $('#special-instructions').val().trim();
+
+        // Validate required fields
+        if (!name || !email || !phone || !address) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+
+        // Get cart data
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let total = 0;
+        cart.forEach(item => {
+            total += item.price * item.quantity;
+        });
+
+        // Build order summary for email
+        let orderSummary = 'ORDER DETAILS:\n';
+        orderSummary += '================\n\n';
+
+        cart.forEach(item => {
+            orderSummary += `${item.title}\n`;
+            orderSummary += `  Price: $${item.price.toFixed(2)}\n`;
+            orderSummary += `  Quantity: ${item.quantity}\n`;
+            orderSummary += `  Subtotal: $${(item.price * item.quantity).toFixed(2)}\n\n`;
+        });
+
+        orderSummary += `TOTAL: $${total.toFixed(2)}\n\n`;
+        orderSummary += 'CUSTOMER INFORMATION:\n';
+        orderSummary += '=====================\n';
+        orderSummary += `Name: ${name}\n`;
+        orderSummary += `Email: ${email}\n`;
+        orderSummary += `Phone: ${phone}\n`;
+        orderSummary += `Pickup Address: ${address}\n`;
+
+        if (instructions) {
+            orderSummary += `Special Instructions: ${instructions}\n`;
+        }
+
+        orderSummary += '\nPlease contact me to arrange pickup and payment. Thank you!';
+
+        // Create email content
+        const subject = `New Order from ${name} - $${total.toFixed(2)}`;
+        const body = encodeURIComponent(orderSummary);
+        const mailtoLink = `mailto:wearitforward.org@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+
+        // Populate modal with email content
+        $('#email-subject').text(subject);
+        $('#email-body').text(orderSummary);
+        $('#mailto-link').attr('href', mailtoLink);
+
+        // Show custom modal
+        $('#email-modal').css('display', 'block');
+
+        // Clear cart after showing modal
+        localStorage.removeItem('cart');
+        updateCartIcon();
+    });
+
+    // Handle copy buttons
+    $('body').off('click', '.copy-btn').on('click', '.copy-btn', function(e) {
+        e.preventDefault();
+        const targetId = $(this).data('target');
+        const targetElement = document.getElementById(targetId);
+        const textToCopy = targetElement.textContent || targetElement.innerText;
+
+        // Create a temporary textarea element to copy text
+        const tempTextarea = document.createElement('textarea');
+        tempTextarea.value = textToCopy;
+        document.body.appendChild(tempTextarea);
+        tempTextarea.select();
+        tempTextarea.setSelectionRange(0, 99999); // For mobile devices
+
+        try {
+            document.execCommand('copy');
+            // Show success feedback
+            const originalText = $(this).html();
+            $(this).html('<i class="fa fa-check"></i> Copied!');
+            $(this).css('background-color', '#27ae60');
+
+            setTimeout(() => {
+                $(this).html(originalText);
+                $(this).css('background-color', '#3498db');
+            }, 2000);
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+            alert('Failed to copy. Please select and copy manually.');
+        }
+
+        document.body.removeChild(tempTextarea);
+    });
+
+    // Handle modal close buttons
+    $('body').off('click', '#close-modal, #close-modal-btn').on('click', '#close-modal, #close-modal-btn', function(e) {
+        e.preventDefault();
+        $('#email-modal').css('display', 'none');
+        window.location.hash = '#landing';
+    });
+
+    // Handle modal backdrop click (close when clicking outside)
+    $('body').off('click', '#email-modal').on('click', '#email-modal', function(e) {
+        if (e.target === this) {
+            $('#email-modal').css('display', 'none');
+            window.location.hash = '#landing';
+        }
+    });
+
+    // Prevent modal content clicks from closing modal
+    $('body').off('click', '#email-modal > div > div').on('click', '#email-modal > div > div', function(e) {
+        e.stopPropagation();
+    });
+}
+
+function donate_after_load() {
+    // Handle donation email button
+    $('body').off('click', '#send-donation-email').on('click', '#send-donation-email', function(e) {
+        e.preventDefault();
+        // Show donation modal
+        $('#donation-email-modal').css('display', 'block');
+    });
+
+    // Handle donation modal close buttons
+    $('body').off('click', '#close-donation-modal, #close-donation-modal-btn').on('click', '#close-donation-modal, #close-donation-modal-btn', function(e) {
+        e.preventDefault();
+        $('#donation-email-modal').css('display', 'none');
+    });
+
+    // Handle donation modal backdrop click (close when clicking outside)
+    $('body').off('click', '#donation-email-modal').on('click', '#donation-email-modal', function(e) {
+        if (e.target === this) {
+            $('#donation-email-modal').css('display', 'none');
+        }
+    });
+
+    // Prevent donation modal content clicks from closing modal
+    $('body').off('click', '#donation-email-modal > div > div').on('click', '#donation-email-modal > div > div', function(e) {
+        e.stopPropagation();
+    });
+
+    // Handle copy buttons for donation modal (reuse existing copy functionality)
+    // The copy functionality is already handled by the existing .copy-btn handler above
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////// Add to Cart Feedback /////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+function addToCartWithFeedback(productId, item) {
+    // Call the original addToCart function
+    addToCart(item);
+
+    // Get the button and feedback elements
+    const button = document.getElementById('add-to-cart-btn-' + productId);
+    const feedback = document.getElementById('cart-feedback-' + productId);
+
+    if (button && feedback) {
+        // Change button text temporarily
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="fa fa-check" style="margin-right: 8px;"></i>Added!';
+        button.style.backgroundColor = '#27ae60';
+        button.style.borderColor = '#27ae60';
+
+        // Show feedback section
+        feedback.style.display = 'block';
+
+        // Reset button after 3 seconds
+        setTimeout(function() {
+            button.innerHTML = originalText;
+            button.style.backgroundColor = '';
+            button.style.borderColor = '';
+        }, 3000);
+
+        // Auto-hide feedback after 10 seconds
+        setTimeout(function() {
+            feedback.style.display = 'none';
+        }, 10000);
+    }
 }

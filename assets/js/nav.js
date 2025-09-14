@@ -23,28 +23,40 @@ const navDataMap = {
         link: "index.html#cart",
         isMenu: false,
     },
+    "checkout": {
+        title: "Checkout",
+        template: "checkoutTemplate.html",
+        link: "index.html#checkout",
+        isMenu: false,
+    },
     "donate": {
         title: "Donate",
         template: "donateTemplate.html",
         link: "index.html#donate",
         isMenu: true,
     },
+    "faq": {
+        title: "FAQ",
+        template: "faqTemplate.html",
+        link: "index.html#faq",
+        isMenu: true,
+    },
     "howItWorks": {
         title: "How it works",
         template: "howItWorksTemplate.html",
         link: "index.html#howItWorks",
-        isMenu: true,
+        isMenu: false,
     },
     "blog": {
         title: "Blog",
         link: "https://blog.wearitforward.org",
-        isMenu: true,
+        isMenu: false,
     },
     "aboutUs": {
         title: "About Us",
         template: "aboutUsTemplate.html",
         link: "index.html#aboutUs",
-        isMenu: true,
+        isMenu: false,
     },
 }
 

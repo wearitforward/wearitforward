@@ -27,7 +27,7 @@
                 </div>
                 <div class="row mb-20">
                   <div class="col-sm-12">
-                    <div class="price font-alt"><span class="amount">£${price}</span></div>
+                    <div class="price font-alt"><span class="amount">$${price}</span></div>
                   </div>
                 </div>
                 <div class="row mb-20">
@@ -47,7 +47,20 @@
                   <div class="col-sm-4 mb-sm-20">
                     <input id="quantity" class="form-control input-lg" type="number" name="" value="1" max="${quantity}" min="1" required="required"/>
                   </div>
-                  <div class="col-sm-8"><a class="btn btn-lg btn-block btn-round btn-b" onclick="addToCart({ id: ${id}, title: ${JSON.stringify(title)}, price: ${price}, quantity: document.getElementById('quantity').valueAsNumber, image: ${JSON.stringify(main_image_url)} }); return false;">Add To Cart</a></div>
+                  <div class="col-sm-8">
+                    <a id="add-to-cart-btn-${id}" class="btn btn-lg btn-block btn-round btn-b" onclick="addToCartWithFeedback(${id}, { id: ${id}, title: ${JSON.stringify(title)}, price: ${price}, quantity: document.getElementById('quantity').valueAsNumber, image: ${JSON.stringify(main_image_url)} }); return false;">Add To Cart</a>
+                    <div id="cart-feedback-${id}" style="display: none; margin-top: 15px; text-align: center;">
+                      <p style="color: #27ae60; font-weight: 600; margin-bottom: 10px;">
+                        <i class="fa fa-check-circle" style="margin-right: 8px;"></i>Added to cart successfully!
+                      </p>
+                      <a href="index.html#cart" class="btn btn-outline btn-sm" style="margin-right: 10px;">
+                        <i class="fa fa-shopping-cart" style="margin-right: 5px;"></i>View Cart
+                      </a>
+                      <a href="index.html#checkout" class="btn btn-b btn-sm">
+                        <i class="fa fa-credit-card" style="margin-right: 5px;"></i>Go to Checkout
+                      </a>
+                    </div>
+                  </div>
                 </div>
                 {{else}}
                 <div class="row mb-20">

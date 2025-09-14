@@ -28,11 +28,11 @@
                                     <tr>
                                         <td><a href="#productDetails?id=${item.id}"><img src="${item.image}" alt="${item.title}" width="50"/></a></td>
                                         <td><a href="#productDetails?id=${item.id}">${item.title}</a></td>
-                                        <td>£${item.price.toFixed(2)}</td>
+                                        <td>$${item.price.toFixed(2)}</td>
                                         <td>
                                             <input class="form-control" style="width: 80px;" type="number" value="${item.quantity}" min="1" data-id="${item.id}" />
                                         </td>
-                                        <td>£${(item.price * item.quantity).toFixed(2)}</td>
+                                        <td>$${(item.price * item.quantity).toFixed(2)}</td>
                                         <td class="text-center">
                                             <a href="#" class="remove-from-cart" data-id="${item.id}"><i class="fa fa-times-circle"></i></a>
                                         </td>
@@ -60,15 +60,15 @@
                                 <tbody>
                                     <tr>
                                         <th>Cart Subtotal :</th>
-                                        <td>£${total.toFixed(2)}</td>
+                                        <td>$${total.toFixed(2)}</td>
                                     </tr>
                                     <tr class="shop-Cart-totalprice">
                                         <th>Total :</th>
-                                        <td>£${total.toFixed(2)}</td>
+                                        <td>$${total.toFixed(2)}</td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <a class="btn btn-lg btn-block btn-round btn-d" href="#">Proceed to Checkout</a>
+                            <a class="btn btn-lg btn-block btn-round btn-d" href="#checkout" id="proceed-to-checkout">Proceed to Checkout</a>
                         </div>
                     </div>
                 </div>
