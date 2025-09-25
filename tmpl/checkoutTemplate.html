@@ -1,18 +1,46 @@
 <script id="sectionTemplate" type="text/x-jquery-tmpl">
     <div class="main">
         <!-- Header Section -->
-        <section class="module" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0;">
+        <section class="module" style="background: linear-gradient(135deg, #667eea 0%, #8b7ed8 50%, #764ba2 100%); color: white; padding: 100px 0; position: relative; overflow: hidden;">
+          <!-- Background decoration -->
+          <div style="position: absolute; top: -30px; right: -30px; width: 150px; height: 150px; background: rgba(255,255,255,0.05); border-radius: 50%; animation: float 6s ease-in-out infinite;"></div>
+          <div style="position: absolute; bottom: -20px; left: -20px; width: 100px; height: 100px; background: rgba(255,255,255,0.03); border-radius: 50%; animation: float 8s ease-in-out infinite reverse;"></div>
+
           <div class="container">
             <div class="row">
               <div class="col-sm-8 col-sm-offset-2 text-center">
-                <h1 class="module-title font-alt" style="font-size: 3em; margin-bottom: 20px; color: white;">Checkout</h1>
-                <p class="module-subtitle font-serif" style="font-size: 1.4em; line-height: 1.6; color: #f8f9fa;">
+                <h1 class="module-title font-alt" style="font-size: 3.5em; margin-bottom: 30px; color: white; font-weight: 200; letter-spacing: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.1); animation: slideDown 1s ease-out;">Checkout</h1>
+                <div style="width: 60px; height: 3px; background: linear-gradient(90deg, #e74c3c, #f39c12); margin: 0 auto 35px auto; border-radius: 2px;"></div>
+                <p class="module-subtitle font-serif" style="font-size: 1.6em; line-height: 1.6; color: rgba(255,255,255,0.95); animation: slideUp 1s ease-out 0.2s both;">
                   Complete your order and we'll contact you for pickup and payment
                 </p>
               </div>
             </div>
           </div>
         </section>
+
+        <!-- CSS for hero section animations -->
+        <style>
+          @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+          }
+
+          @keyframes slideDown {
+            0% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+
+          @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+
+          @media (max-width: 768px) {
+            .module h1 { font-size: 2.5em !important; }
+            .module p { font-size: 1.4em !important; }
+          }
+        </style>
 
         <!-- Checkout Content -->
         <section class="module" style="padding: 60px 0;">

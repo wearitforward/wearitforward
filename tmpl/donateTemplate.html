@@ -1,18 +1,23 @@
 <script id="sectionTemplate" type="text/x-jquery-tmpl">
     <div class="main">
         <!-- Header Section -->
-        <section class="module" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 100px 0;">
+        <section class="module" style="background: linear-gradient(135deg, #667eea 0%, #8b7ed8 50%, #764ba2 100%); color: white; padding: 120px 0; position: relative; overflow: hidden;">
+          <!-- Background decoration -->
+          <div style="position: absolute; top: -30px; right: -30px; width: 150px; height: 150px; background: rgba(255,255,255,0.05); border-radius: 50%; animation: float 6s ease-in-out infinite;"></div>
+          <div style="position: absolute; bottom: -20px; left: -20px; width: 100px; height: 100px; background: rgba(255,255,255,0.03); border-radius: 50%; animation: float 8s ease-in-out infinite reverse;"></div>
+
           <div class="container">
             <div class="row">
               <div class="col-sm-8 col-sm-offset-2 text-center">
-                <h1 class="module-title font-alt" style="font-size: 3.5em; margin-bottom: 25px; color: white;">Donate Items</h1>
-                <p class="module-subtitle font-serif" style="font-size: 1.6em; line-height: 1.6; color: #f8f9fa; margin-bottom: 30px;">
-                  Give your gently used Indian clothing, jewelry, and cultural items a second life while supporting children in need through <a href="https://www.solacecharities.org/" target="_blank" rel="noopener noreferrer" style="color: #1abc9c; text-decoration: none; font-weight: 600;">Solace</a>
+                <h1 class="module-title font-alt" style="font-size: 4em; margin-bottom: 35px; color: white; font-weight: 200; letter-spacing: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.1); animation: slideDown 1s ease-out;">Donate Items</h1>
+                <div style="width: 60px; height: 3px; background: linear-gradient(90deg, #e74c3c, #f39c12); margin: 0 auto 40px auto; border-radius: 2px;"></div>
+                <p class="module-subtitle font-serif" style="font-size: 1.8em; line-height: 1.6; color: rgba(255,255,255,0.95); margin-bottom: 45px; animation: slideUp 1s ease-out 0.2s both;">
+                  Give your gently used Indian clothing, jewelry, and cultural items a second life while supporting children in need through <a href="https://www.solacecharities.org/" target="_blank" rel="noopener noreferrer" style="color: #ffd700; text-decoration: none; font-weight: 600;">Solace</a>
                 </p>
-                <div style="background-color: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; backdrop-filter: blur(10px); margin-top: 40px;">
-                  <i class="fa fa-heart" style="font-size: 3em; color: #e74c3c; margin-bottom: 20px;"></i>
-                  <h3 style="color: white; margin-bottom: 15px;">Simple Process</h3>
-                  <p style="color: #ecf0f1; font-size: 1.3em; margin: 0;">
+                <div style="background-color: rgba(255,255,255,0.1); padding: 35px; border-radius: 15px; backdrop-filter: blur(10px); margin-top: 40px; animation: fadeInUp 1s ease-out 0.4s both;">
+                  <i class="fa fa-heart" style="font-size: 3.5em; color: #e74c3c; margin-bottom: 25px;"></i>
+                  <h3 style="color: white; margin-bottom: 20px; font-size: 1.6em;">Simple Process</h3>
+                  <p style="color: rgba(255,255,255,0.9); font-size: 1.4em; margin: 0; line-height: 1.5;">
                     Send us an email and we'll handle the rest!
                   </p>
                 </div>
@@ -20,6 +25,34 @@
             </div>
           </div>
         </section>
+
+        <!-- CSS for hero section animations -->
+        <style>
+          @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+          }
+
+          @keyframes slideDown {
+            0% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+
+          @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+
+          @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+
+          @media (max-width: 768px) {
+            .module h1 { font-size: 2.5em !important; }
+            .module p { font-size: 1.4em !important; }
+          }
+        </style>
 
         <!-- How to Donate Section -->
         <section class="module" style="padding: 80px 0; background-color: #f8f9fa;">

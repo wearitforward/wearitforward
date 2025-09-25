@@ -1,12 +1,17 @@
 <script id="sectionTemplate" type="text/x-jquery-tmpl">
     <div class="main">
         <!-- Header Section -->
-        <section class="module" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0;">
+        <section class="module" style="background: linear-gradient(135deg, #667eea 0%, #8b7ed8 50%, #764ba2 100%); color: white; padding: 100px 0; position: relative; overflow: hidden;">
+          <!-- Background decoration -->
+          <div style="position: absolute; top: -30px; right: -30px; width: 150px; height: 150px; background: rgba(255,255,255,0.05); border-radius: 50%; animation: float 6s ease-in-out infinite;"></div>
+          <div style="position: absolute; bottom: -20px; left: -20px; width: 100px; height: 100px; background: rgba(255,255,255,0.03); border-radius: 50%; animation: float 8s ease-in-out infinite reverse;"></div>
+
           <div class="container">
             <div class="row">
               <div class="col-sm-8 col-sm-offset-2 text-center">
-                <h1 class="module-title font-alt" style="font-size: 3em; margin-bottom: 20px; color: white;">Frequently Asked Questions</h1>
-                <p class="module-subtitle font-serif" style="font-size: 1.4em; line-height: 1.6; color: #f8f9fa;">
+                <h1 class="module-title font-alt" style="font-size: 3.5em; margin-bottom: 30px; color: white; font-weight: 200; letter-spacing: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.1); animation: slideDown 1s ease-out;">Frequently Asked Questions</h1>
+                <div style="width: 60px; height: 3px; background: linear-gradient(90deg, #e74c3c, #f39c12); margin: 0 auto 35px auto; border-radius: 2px;"></div>
+                <p class="module-subtitle font-serif" style="font-size: 1.6em; line-height: 1.6; color: rgba(255,255,255,0.95); animation: slideUp 1s ease-out 0.2s both;">
                   Everything you need to know about Wear It Forward
                 </p>
               </div>
@@ -35,6 +40,13 @@
                                 <h4 style="color: #e74c3c; margin-bottom: 15px; font-weight: 600;">Who is Riya Nambiar?</h4>
                                 <p style="color: #6c757d; line-height: 1.7; font-size: 1.1em;">
                                     Riya is a 15-year-old high school student with a passion for helping others that began in third grade. She's been involved in youth-led fundraising efforts, from selling homemade dosa batter and chocolates to teaching coding to younger students. Her desire to make a tangible impact led her to establish Wear It Forward, recognizing an opportunity to give beautiful garments a second life while supporting children in need.
+                                </p>
+                            </div>
+
+                            <div class="faq-item" style="margin-bottom: 30px; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                                <h4 style="color: #e74c3c; margin-bottom: 15px; font-weight: 600;">Who is Rishab Mannazhath?</h4>
+                                <p style="color: #6c757d; line-height: 1.7; font-size: 1.1em;">
+                                    Rishab (Rishabh) is a freshman in the IB program and Riya's co-founder and partner in this initiative. He brings his passion for music and extensive volunteer experience at Metropolitan Ministries to Wear It Forward. Through his volunteer work, he's witnessed firsthand how small acts of kindness can create lasting impact. Rishab is excited to give gently used Indian clothes a second life while collaborating with <a href="https://www.solacecharities.org/" target="_blank" rel="noopener noreferrer" style="color: #e74c3c; text-decoration: none; font-weight: 600;">Solace</a> to bring hope to children in India.
                                 </p>
                             </div>
 
