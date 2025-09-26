@@ -91,8 +91,12 @@ class Gemini25ClothingEnhancer:
         return image_files
 
 
-    def analyze_clothing_item(self, image_path: Path) -> str:
+    def analyze_clothing_item(self, image_path: Path) -> Dict[str, str]:
         """Analyze the clothing item to create better enhancement prompts."""
+        analysis_result = {
+            "analysis": "Indian traditional clothing with professional enhancement needed",
+            "item_type": "garment"  # Default to garment
+        }
         try:
             # Load image and keep it in memory
             img = Image.open(image_path)
@@ -106,8 +110,8 @@ class Gemini25ClothingEnhancer:
 
             # Analysis prompt
             prompt = """
-            Analyze this Indian clothing item and describe it briefly:
-            - Type of garment (saree, lehenga, kurta, salwar suit, etc.)
+            Analyze this Indian clothing or jewelry item and describe it briefly:
+            - Type of item (saree, lehenga, necklace, earrings, etc.)
             - Main colors
             - Visible patterns or embellishments
             - Current photo quality issues (lighting, wrinkles, background, etc.)
@@ -117,65 +121,92 @@ class Gemini25ClothingEnhancer:
 
             # Use the client to generate content
             response = self.client.models.generate_content(
-                model="gemini-1.5-pro",  # Use text model for analysis
+                model="gemini-2.5-flash",  # Use text model for analysis
                 contents=[img, prompt]
             )
 
             if response.candidates and response.candidates[0].content.parts:
                 analysis = response.candidates[0].content.parts[0].text.strip()
                 self.logger.info(f"Analysis for {image_path.name}: {analysis}")
-                return analysis
+                analysis_result["analysis"] = analysis
+
+                # Determine item type
+                jewelry_keywords = ['necklace', 'earrings', 'bangles', 'ring', 'jewelry', 'anklet']
+                if any(keyword in analysis.lower() for keyword in jewelry_keywords):
+                    analysis_result["item_type"] = "jewelry"
+                
+                return analysis_result
             else:
-                return "Indian traditional clothing with professional enhancement needed"
+                return analysis_result
 
         except Exception as e:
             self.logger.warning(f"Could not analyze {image_path.name}: {e}")
-            return "Indian traditional clothing with professional enhancement needed"
+            return analysis_result
 
-    def create_enhancement_prompt(self, analysis: str, original_size: tuple) -> str:
+    def create_enhancement_prompt(self, analysis: str, original_size: tuple, item_type: str) -> str:
         """Create a detailed prompt for image generation based on analysis."""
         width, height = original_size
-        return f"""
-        Create a professional e-commerce product photograph based on this clothing item: {analysis}
 
-        CRITICAL SIZE AND PROPORTION REQUIREMENTS:
-        🔹 MAINTAIN EXACT PROPORTIONS: Keep the same width-to-height ratio as the original image
-        🔹 PRESERVE GARMENT SIZE: The clothing item should appear the same size relative to the image frame
-        🔹 NO MANNEQUIN OR MODEL: Show only the clothing item itself, no person wearing it
-        🔹 FLAT LAY OR HANGING STYLE: Present as a clean product shot without human form
+        if item_type == 'jewelry':
+            return f"""
+            Create a professional e-commerce product photograph for this jewelry item: {analysis}
 
-        TRANSFORMATION REQUIREMENTS:
-        ✨ Remove ALL wrinkles and fabric creases - make it look freshly pressed and smooth
-        ✨ Perfect studio lighting - bright, even, professional photography lighting with no harsh shadows
-        ✨ Clean white or light neutral background - completely remove any clutter or distracting elements
-        ✨ Enhance colors to be vibrant but natural and authentic to the original
-        ✨ Professional garment presentation 
-        ✨ Sharp, high-definition quality showing fabric texture and intricate details
-        ✨ E-commerce catalog ready - suitable for online shopping with clear product visibility
+            CRITICAL REQUIREMENTS:
+            - DO NOT CHANGE THE JEWELRY: The original jewelry must be preserved exactly as it is. No changes to its shape, size, color, or details.
+            - CHANGE ONLY THE BACKGROUND: Replace the current background with a clean, elegant, and professional studio background. Use a soft, neutral color like light gray, beige, or a subtle gradient.
+            - PROFESSIONAL LIGHTING: Apply professional studio lighting to make the jewelry stand out. Enhance reflections and sparkle, but do not alter the material or colors.
+            - MAINTAIN PROPORTIONS: The final image must have the exact same width-to-height ratio as the original.
+            - E-COMMERCE READY: The final image should be sharp, high-definition, and ready for an online store.
 
-        PRESERVE AUTHENTICITY:
-        • Keep original design, patterns, and embellishments exactly as shown
-        • Maintain authentic Indian clothing style and traditional draping
-        • Preserve true colors and cultural elements
-        • Keep garment proportions and authentic fit
-        • Show the garment in the same orientation and layout as the original
+            AVOID:
+            - Any alteration to the jewelry item itself.
+            - Busy or distracting backgrounds.
+            - Cropping or changing the framing of the jewelry.
+            """
+        else:  # Garment prompt
+            return f"""
+            Create a professional e-commerce product photograph based on this clothing item: {analysis}
 
-        AVOID:
-        ❌ NO mannequins, models, or human forms
-        ❌ NO dramatic pose changes or different garment arrangements
-        ❌ NO size distortion or proportion changes
-        ❌ NO cropping that changes the original framing
+            CRITICAL SIZE AND PROPORTION REQUIREMENTS:
+            🔹 MAINTAIN EXACT PROPORTIONS: Keep the same width-to-height ratio as the original image
+            🔹 PRESERVE GARMENT SIZE: The clothing item should appear the same size relative to the image frame
+            🔹 NO MANNEQUIN OR MODEL: Show only the clothing item itself, no person wearing it
+            🔹 FLAT LAY OR HANGING STYLE: Present as a clean product shot without human form
 
-        STYLE: Professional product photography, studio quality, e-commerce flat lay, catalog-ready presentation
+            TRANSFORMATION REQUIREMENTS:
+            ✨ Remove ALL wrinkles and fabric creases - make it look freshly pressed and smooth
+            ✨ Perfect studio lighting - bright, even, professional photography lighting with no harsh shadows
+            ✨ Clean, consistent, light-grey studio background - completely remove any clutter or distracting elements
+            ✨ Enhance colors to be vibrant but natural and authentic to the original
+            ✨ Professional garment presentation 
+            ✨ Sharp, high-definition quality showing fabric texture and intricate details
+            ✨ E-commerce catalog ready - suitable for online shopping with clear product visibility
 
-        Generate an enhanced version that maintains the exact same proportions and garment presentation as the original, but with professional studio quality and wrinkle-free appearance.
-        """
+            PRESERVE AUTHENTICITY:
+            • Keep original design, patterns, and embellishments exactly as shown
+            • Maintain authentic Indian clothing style and traditional draping
+            • Preserve true colors and cultural elements
+            • Keep garment proportions and authentic fit
+            • Show the garment in the same orientation and layout as the original
+
+            AVOID:
+            ❌ NO mannequins, models, or human forms
+            ❌ NO dramatic pose changes or different garment arrangements
+            ❌ NO size distortion or proportion changes
+            ❌ NO cropping that changes the original framing
+
+            STYLE: Professional product photography, studio quality, e-commerce flat lay, catalog-ready presentation
+
+            Generate an enhanced version that maintains the exact same proportions and garment presentation as the original, but with professional studio quality and wrinkle-free appearance on a consistent light-grey background.
+            """
 
     def enhance_with_gemini(self, image_path: Path) -> Optional[bytes]:
         """Use Gemini 2.5 Flash to enhance the clothing image."""
         try:
             # Analyze the clothing item first
-            analysis = self.analyze_clothing_item(image_path)
+            analysis_result = self.analyze_clothing_item(image_path)
+            analysis = analysis_result["analysis"]
+            item_type = analysis_result["item_type"]
 
             # Load original image and keep it in memory
             original_image = Image.open(image_path)
@@ -186,8 +217,8 @@ class Gemini25ClothingEnhancer:
             original_size = original_image.size
             self.logger.info(f"Original image size: {original_size[0]}x{original_size[1]}")
 
-            # Create enhancement prompt with size information
-            prompt = self.create_enhancement_prompt(analysis, original_size)
+            # Create enhancement prompt with size and item type information
+            prompt = self.create_enhancement_prompt(analysis, original_size, item_type)
 
             # Only resize if absolutely necessary (very large images)
             processing_image = original_image

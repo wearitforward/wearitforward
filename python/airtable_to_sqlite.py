@@ -69,38 +69,55 @@ def download_image_if_not_exists(url, target_dir):
         return None
 
 def setup_database():
-    """Sets up the SQLite database by deleting the old one and applying the schema."""
-    if os.path.exists(DB_PATH):
-        os.remove(DB_PATH)
-        print(f"Removed existing database: {DB_PATH}")
-
+    """Sets up the SQLite database, creating it if it doesn't exist."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    try:
-        with open(SCHEMA_PATH, 'r', encoding='utf-8') as f:
-            schema_sql = f.read()
-        cursor.executescript(schema_sql)
-        print(f"Database schema loaded from {SCHEMA_PATH}")
-    except FileNotFoundError:
-        print(f"Error: Schema file not found at {SCHEMA_PATH}")
-        conn.close()
-        return None, None
-        
+    # Check if tables exist, if not create them
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='products'")
+    if not cursor.fetchone():
+        try:
+            with open(SCHEMA_PATH, 'r', encoding='utf-8') as f:
+                schema_sql = f.read()
+            cursor.executescript(schema_sql)
+            print(f"Database schema loaded from {SCHEMA_PATH}")
+        except FileNotFoundError:
+            print(f"Error: Schema file not found at {SCHEMA_PATH}")
+            conn.close()
+            return None, None
+    else:
+        print("Database already exists, performing incremental sync")
+
     conn.commit()
     return conn, cursor
 
-def populate_products(conn, cursor, inventory_items):
-    """Populates the products table from Airtable 'Inventory Items' records."""
-    print("Populating 'products' table...")
+def sync_products(conn, cursor, inventory_items):
+    """Syncs the products table with Airtable 'Inventory Items' records."""
+    print("Syncing 'products' table...")
     airtable_id_to_sqlite_id = {}
 
     # Ensure the target directory for images exists
     os.makedirs(IMAGES_DIR, exist_ok=True)
-    
+
+    # First, add airtable_id column if it doesn't exist
+    cursor.execute("PRAGMA table_info(products)")
+    columns = [column[1] for column in cursor.fetchall()]
+    if 'airtable_id' not in columns:
+        cursor.execute("ALTER TABLE products ADD COLUMN airtable_id TEXT")
+        print("Added airtable_id column to products table")
+
+    # Get current Airtable IDs from the database
+    cursor.execute("SELECT id, airtable_id FROM products WHERE airtable_id IS NOT NULL")
+    existing_products = {airtable_id: sqlite_id for sqlite_id, airtable_id in cursor.fetchall()}
+
+    # Track which Airtable IDs we see in this sync
+    current_airtable_ids = set()
+
     for item in inventory_items:
+        airtable_id = item['id']
+        current_airtable_ids.add(airtable_id)
         fields = item.get('fields', {})
-        
+
         title = fields.get('Item Name')
         if not title:
             continue # Skip records without a title
@@ -108,7 +125,7 @@ def populate_products(conn, cursor, inventory_items):
         description = fields.get('Description', '')
         price = fields.get('Price', 0.0)
         quantity = fields.get('Quantity', 0)
-        
+
         airtable_images = fields.get('Images', [])
         local_image_paths = []
         if airtable_images:
@@ -120,20 +137,38 @@ def populate_products(conn, cursor, inventory_items):
 
         main_image_path = local_image_paths[0] if local_image_paths else None
         images_json = json.dumps(local_image_paths)
-        
+
         # Assuming USD from Airtable's '$' symbol, as seen in schema.json
         currency = 'USD'
-        
-        cursor.execute("""
-            INSERT INTO products (title, description, price, quantity, currency, images, main_image_url)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (title, description, price, quantity, currency, images_json, main_image_path))
-        
-        sqlite_id = cursor.lastrowid
-        airtable_id_to_sqlite_id[item['id']] = sqlite_id
-        
+
+        if airtable_id in existing_products:
+            # Update existing product
+            sqlite_id = existing_products[airtable_id]
+            cursor.execute("""
+                UPDATE products
+                SET title=?, description=?, price=?, quantity=?, currency=?, images=?, main_image_url=?
+                WHERE id=?
+            """, (title, description, price, quantity, currency, images_json, main_image_path, sqlite_id))
+            airtable_id_to_sqlite_id[airtable_id] = sqlite_id
+        else:
+            # Insert new product
+            cursor.execute("""
+                INSERT INTO products (title, description, price, quantity, currency, images, main_image_url, airtable_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """, (title, description, price, quantity, currency, images_json, main_image_path, airtable_id))
+
+            sqlite_id = cursor.lastrowid
+            airtable_id_to_sqlite_id[airtable_id] = sqlite_id
+
+    # Delete products that no longer exist in Airtable
+    products_to_delete = set(existing_products.keys()) - current_airtable_ids
+    if products_to_delete:
+        placeholders = ','.join(['?' for _ in products_to_delete])
+        cursor.execute(f"DELETE FROM products WHERE airtable_id IN ({placeholders})", list(products_to_delete))
+        print(f"Deleted {len(products_to_delete)} products no longer in Airtable")
+
     conn.commit()
-    print(f"Inserted {len(airtable_id_to_sqlite_id)} products.")
+    print(f"Synced {len(airtable_id_to_sqlite_id)} products.")
     return airtable_id_to_sqlite_id
 
 def populate_attributes(conn, cursor, inventory_attributes, product_id_map):
@@ -224,8 +259,8 @@ def main():
         conn.close()
         return
 
-    # 3. Populate tables
-    product_id_map = populate_products(conn, cursor, inventory_items)
+    # 3. Sync tables
+    product_id_map = sync_products(conn, cursor, inventory_items)
     populate_attributes(conn, cursor, inventory_attributes, product_id_map)
     
     # 4. Clean up
