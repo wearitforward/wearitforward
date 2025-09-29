@@ -42,11 +42,12 @@ def fetch_all_airtable_records(base_id, pat, table_id):
     print(f"Fetched {len(records)} records.")
     return records
 
-def download_image_if_not_exists(url, target_dir):
+def download_image_if_not_exists(url, target_dir, filename=None):
     """Downloads an image from a URL to a target directory if it doesn't exist, and returns the web-accessible path."""
     try:
-        # Sanitize filename from URL
-        filename = os.path.basename(urlparse(url).path)
+        # Use provided filename or fall back to URL-based name
+        if not filename:
+            filename = os.path.basename(urlparse(url).path)
         local_path = os.path.join(target_dir, filename)
         
         # The web path should always use forward slashes.
@@ -106,6 +107,11 @@ def sync_products(conn, cursor, inventory_items):
         cursor.execute("ALTER TABLE products ADD COLUMN airtable_id TEXT")
         print("Added airtable_id column to products table")
 
+    # Add display_order column if it doesn't exist
+    if 'display_order' not in columns:
+        cursor.execute("ALTER TABLE products ADD COLUMN display_order INTEGER")
+        print("Added display_order column to products table")
+
     # Get current Airtable IDs from the database
     cursor.execute("SELECT id, airtable_id FROM products WHERE airtable_id IS NOT NULL")
     existing_products = {airtable_id: sqlite_id for sqlite_id, airtable_id in cursor.fetchall()}
@@ -113,10 +119,11 @@ def sync_products(conn, cursor, inventory_items):
     # Track which Airtable IDs we see in this sync
     current_airtable_ids = set()
 
-    for item in inventory_items:
+    for index, item in enumerate(inventory_items):
         airtable_id = item['id']
         current_airtable_ids.add(airtable_id)
         fields = item.get('fields', {})
+        display_order = index + 1  # 1-based ordering based on Airtable position
 
         title = fields.get('Item Name')
         if not title:
@@ -131,7 +138,8 @@ def sync_products(conn, cursor, inventory_items):
         if airtable_images:
             for img in airtable_images:
                 if 'url' in img:
-                    local_path = download_image_if_not_exists(img['url'], IMAGES_DIR)
+                    filename = img.get('filename')
+                    local_path = download_image_if_not_exists(img['url'], IMAGES_DIR, filename)
                     if local_path:
                         local_image_paths.append(local_path)
 
@@ -146,16 +154,16 @@ def sync_products(conn, cursor, inventory_items):
             sqlite_id = existing_products[airtable_id]
             cursor.execute("""
                 UPDATE products
-                SET title=?, description=?, price=?, quantity=?, currency=?, images=?, main_image_url=?
+                SET title=?, description=?, price=?, quantity=?, currency=?, images=?, main_image_url=?, display_order=?
                 WHERE id=?
-            """, (title, description, price, quantity, currency, images_json, main_image_path, sqlite_id))
+            """, (title, description, price, quantity, currency, images_json, main_image_path, display_order, sqlite_id))
             airtable_id_to_sqlite_id[airtable_id] = sqlite_id
         else:
             # Insert new product
             cursor.execute("""
-                INSERT INTO products (title, description, price, quantity, currency, images, main_image_url, airtable_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """, (title, description, price, quantity, currency, images_json, main_image_path, airtable_id))
+                INSERT INTO products (title, description, price, quantity, currency, images, main_image_url, airtable_id, display_order)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (title, description, price, quantity, currency, images_json, main_image_path, airtable_id, display_order))
 
             sqlite_id = cursor.lastrowid
             airtable_id_to_sqlite_id[airtable_id] = sqlite_id

@@ -127,8 +127,8 @@ function parseProduct(product) {
 
 function productList_before_load() {
     return whenDbReady().then(function() {
-        // Fetch all products
-        var products = queryDatabase("SELECT * FROM products");
+        // Fetch all products ordered by display_order
+        var products = queryDatabase("SELECT * FROM products ORDER BY display_order ASC");
         products.forEach(parseProduct);
 
         // Fetch all product-attribute relations

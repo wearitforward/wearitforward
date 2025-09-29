@@ -103,6 +103,9 @@ class Gemini25ClothingEnhancer:
     def create_enhancement_prompt(self, analysis: str, item_type: str, additional_prompt: str = "") -> str:
         """Create a detailed prompt for image generation based on analysis."""
         base_prompt = ""
+        # print analysis for debugging
+        self.logger.info(f"Item analysis: {analysis}, Type: {item_type}")
+
         if item_type == 'jewelry':
             base_prompt = f"""
             Create a professional e-commerce product photograph for this jewelry item: {analysis}
@@ -113,13 +116,14 @@ class Gemini25ClothingEnhancer:
             """
         else:  # Garment prompt
             base_prompt = f"""
-            Create a professional e-commerce product photograph based on this clothing item: {analysis}
+            Create a e-commerce product photograph based on this clothing item: {analysis}
 
             CRITICAL REQUIREMENTS:
             - TARGET ASPECT RATIO: Generate the image with a 3:4 portrait aspect ratio (width:height).
             - PRESERVE GARMENT PROPORTIONS: The garment's own proportions (e.g., length of sleeves to body, width to length) MUST NOT BE CHANGED.
             - CENTER THE GARMENT: Ensure the entire garment is visible and centered in the new 3:4 frame.
-            - FLAT LAY OR HANGING STYLE: Present as a clean product shot without a body form.
+            - FLAT LAY OR HANGING STYLE: Present as a clean product shot without a body form. NO MANNEQUINS OR BODY SHAPES. Do not invent a person, mannequin, or even a "ghost" or invisible body shape. The garment should be presented flat or hanging on its own.
+            - Remove wrinkles and the garment must appear ironed, and freshly pressed.
 
             TRANSFORMATION REQUIREMENTS:
             - CRITICAL: REMOVE ALL WRINKLES. The garment must appear perfectly smooth, ironed, and freshly pressed. Eliminate every single crease and fold from the fabric.
