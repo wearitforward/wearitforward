@@ -8,4 +8,6 @@ python/.venv
 python/.env
 assets/images/shop_images
 assets/images/shop_enhanced
+assets/images/DEL/**/*
+assets/images/Del/**/*
 gemini_2_5_enhancement_log.txt
