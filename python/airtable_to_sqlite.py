@@ -16,12 +16,17 @@ INVENTORY_ATTRIBUTES_TABLE_ID = "tblNvN1I84izhSlzn"
 
 # --- Helper Functions ---
 
-def fetch_all_airtable_records(base_id, pat, table_id):
+def fetch_all_airtable_records(base_id, pat, table_id, view_name=None):
     """Fetches all records from an Airtable table, handling pagination."""
     records = []
     url = f"https://api.airtable.com/v0/{base_id}/{table_id}"
     headers = {"Authorization": f"Bearer {pat}"}
     params = {}
+
+    # Add view parameter if specified
+    if view_name:
+        params["view"] = view_name
+        print(f"Using view: {view_name}")
 
     print(f"Fetching records from table {table_id}...")
     while True:
@@ -259,7 +264,7 @@ def main():
         return
         
     # 2. Fetch data from Airtable
-    inventory_items = fetch_all_airtable_records(base_id, pat, INVENTORY_ITEMS_TABLE_ID)
+    inventory_items = fetch_all_airtable_records(base_id, pat, INVENTORY_ITEMS_TABLE_ID, "Grid view")
     inventory_attributes = fetch_all_airtable_records(base_id, pat, INVENTORY_ATTRIBUTES_TABLE_ID)
     
     if inventory_items is None or inventory_attributes is None:
