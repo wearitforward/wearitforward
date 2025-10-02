@@ -440,6 +440,19 @@ function checkout_after_load() {
     $('body').off('submit', '#checkout-form').on('submit', '#checkout-form', function(e) {
         e.preventDefault();
 
+        // Get cart data for PostHog
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let total = 0;
+        cart.forEach(item => {
+            total += item.price * item.quantity;
+        });
+
+        // PostHog event for starting checkout
+        posthog.capture('checkout_started', {
+            cart: cart,
+            total: total
+        });
+
         // Get form data
         const name = $('#customer-name').val().trim();
         const email = $('#customer-email').val().trim();
@@ -563,6 +576,9 @@ function donate_after_load() {
         e.preventDefault();
         // Show donation modal
         $('#donation-email-modal').css('display', 'block');
+
+        // PostHog event for initiating a donation
+        posthog.capture('donation_initiated');
     });
 
     // Handle donation modal close buttons
@@ -594,6 +610,14 @@ function donate_after_load() {
 function addToCartWithFeedback(productId, item) {
     // Call the original addToCart function
     addToCart(item);
+
+    // PostHog event for adding to cart
+    posthog.capture('add_to_cart', {
+        product_id: item.id,
+        product_name: item.title,
+        price: item.price,
+        quantity: item.quantity
+    });
 
     // Get the button and feedback elements
     const button = document.getElementById('add-to-cart-btn-' + productId);

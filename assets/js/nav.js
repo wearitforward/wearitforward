@@ -116,7 +116,7 @@ function updateCart(newCart) {
 $(window).on('hashchange', function () {
     console.log('hashchange');
     loadBodyContent();
-
+    posthog.capture('$pageview');
 });
 
 $(document).ready(function () {
