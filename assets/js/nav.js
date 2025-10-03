@@ -171,6 +171,7 @@ function loadBodyContent() {
 
         // Helper function to avoid code duplication
         function renderTemplate(templateData) {
+            console.log("Rendering template with data:", templateData);
             $("#sectionTemplate").tmpl(templateData).appendTo("#t-body").ready(function () {
                 console.log("Template rendered for fragment:", fragment);
                 executeFn("_after_load");

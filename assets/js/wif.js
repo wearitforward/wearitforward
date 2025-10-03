@@ -466,13 +466,6 @@ function checkout_after_load() {
             return;
         }
 
-        // Get cart data
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        let total = 0;
-        cart.forEach(item => {
-            total += item.price * item.quantity;
-        });
-
         // Build order summary for email
         let orderSummary = 'ORDER DETAILS:\n';
         orderSummary += '================\n\n';

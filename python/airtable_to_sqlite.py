@@ -136,7 +136,7 @@ def sync_products(conn, cursor, inventory_items):
 
         description = fields.get('Description', '')
         price = fields.get('Price', 0.0)
-        quantity = fields.get('Quantity', 0)
+        quantity = fields.get('Quantity', 1)
 
         airtable_images = fields.get('Images', [])
         local_image_paths = []
